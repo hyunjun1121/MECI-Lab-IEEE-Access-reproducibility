@@ -1,0 +1,73 @@
+{
+  "audit_name": "ieee_access_submission_audit_v1",
+  "outputs": [
+    {
+      "bytes": 704,
+      "path": "audit_summary.json",
+      "sha256": "8ccc60a7cb1ba8656e9a2699273f957d6992f9c981171259268b3faf8ab4edce"
+    },
+    {
+      "bytes": 5268,
+      "path": "fair_model_metrics.csv",
+      "sha256": "20be80ac41066ff62ddcc6d59ed2961761bc8fd914758badddaec3b01bbfd9a3"
+    },
+    {
+      "bytes": 4366474,
+      "path": "fair_model_oof_predictions.csv",
+      "sha256": "f3303b26a65830d60f33c4da7a1fa7232664577e3efdd05476917afcd397c675"
+    },
+    {
+      "bytes": 3497,
+      "path": "fair_model_paired_improvement.csv",
+      "sha256": "5eacd2bde9d3ce18a63d41cf2e5247ec78c259f4cfad38ef1241467a008b8b87"
+    },
+    {
+      "bytes": 976,
+      "path": "matched_pattern_change_control_summary.csv",
+      "sha256": "6c8ffbcd092a2074d30a4dc7685b09d203c4f4a3c589e03c1233704e4154da1d"
+    },
+    {
+      "bytes": 45301,
+      "path": "matched_pattern_change_controls.csv",
+      "sha256": "16570215beb132b61f27071a56a6fb7838ff177fee49835fb1a2e79895c51e13"
+    },
+    {
+      "bytes": 491173,
+      "path": "position_adjusted_circular_shift_detail.csv",
+      "sha256": "cd3503bdd825bdad08f371f3f49fb236c390be64e8c4358e996b306fff7aee42"
+    },
+    {
+      "bytes": 5175,
+      "path": "position_adjusted_circular_shift_summary.csv",
+      "sha256": "5731d2db741aa4bee049c1960bdbeac4f86187c698bb73a6d308df694fbaad28"
+    }
+  ],
+  "permutations": 500,
+  "position_adjustment": "cubic residualization applied before observed and circular-shift correlations",
+  "seed": 33,
+  "source_files": [
+    {
+      "path": "MANIFEST.json",
+      "sha256": "08e040a58f1368dc57f1f57109ccd937ecb1d6655190a23f4eec7596a0f6e31c"
+    },
+    {
+      "path": "analysis_summary.json",
+      "sha256": "9c777ad81f3df77332bb6cd7a648f127e8eda229c22f40e62d6bbdb6044975f1"
+    },
+    {
+      "path": "config.json",
+      "sha256": "6ee4c8be163e838efcdae0a0be19ab971fbbec08680c6ea70eea4136671ac6e2"
+    },
+    {
+      "path": "videos.csv",
+      "sha256": "f645399f3959aba0b06b750ae2aa8fedc90feed8e83ed8306e9f77824d5267e5"
+    },
+    {
+      "path": "windows.csv",
+      "sha256": "d44fbab3464f257255cde7eb8c1f8d581927e871b6a1366b55d1b793c0a6de14"
+    }
+  ],
+  "source_root": "data\\private_analytics\\yugsa_extended\\2026-09-12\\9de11b5f84209492",
+  "status": "complete",
+  "window_width_seconds": 5
+}

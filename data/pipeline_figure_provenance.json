@@ -1,0 +1,173 @@
+{
+  "video_id": "P9n3oy1kfGw",
+  "duration_seconds": 61.53,
+  "selection_rule": "Locally available complete walkthrough closest to primary cohort median duration; not selected by association or outcome",
+  "frame_seconds": [
+    2.5,
+    22.5,
+    27.5
+  ],
+  "event_seconds": 25,
+  "control_seconds": 35,
+  "native_cortical_intervals": [
+    [
+      22.0,
+      23.0
+    ],
+    [
+      27.0,
+      28.0
+    ]
+  ],
+  "analysis_window_seconds": 5,
+  "validated_windows": 12,
+  "timing": "Persisted source intervals with overlap weighting; no added temporal delay",
+  "model_text": "Here, we were able to take classes",
+  "surface_hemisphere_view": "left lateral",
+  "grouped_exit_mae": {
+    "metadata": 0.0062371636264975,
+    "metadata_roi_changes": 0.0059538493837348
+  },
+  "verification": {
+    "media_hash": "pass",
+    "prediction_hashes": "pass",
+    "frozen_windows": "pass",
+    "video_fold_separation": "pass"
+  },
+  "sources": [
+    {
+      "path": "data/processed/yugsa_tv_shorts_snapshot/local_media_staging/collection/yugsa_tv/media/P9n3oy1kfGw.mkv",
+      "sha256": "639e01aa6e481de1cd4bde56d71e51fc96e986492964479b730a5b868e7864b3"
+    },
+    {
+      "path": "data/private_analytics/yugsa_retention/2026-09-12/raw/P9n3oy1kfGw.json",
+      "sha256": "f55e601f5482c8591e63112287ed5b2437d3a4178e1df444b6571124cf890f4e"
+    },
+    {
+      "path": "downloaded_results/group1_vs_group2_4gpu_schema_v2_frames64/tribe_v2_default_full_multimodal_parallel_v2/roi_masks/destrieux_proxy_masks.npz",
+      "sha256": "7a110c11de9cc2dcaffd3f6e5a038e51d4c2062c7410ed9002ad9b190c3e6cfa"
+    },
+    {
+      "path": "downloaded_results/yugsa_tv_shorts_tribe_v2_d271453ad865/input_manifest.json",
+      "sha256": "d13f6617417d446135212dfe0a4654599ccb61ef13ef4c7c62c4f2d057c4885e"
+    },
+    {
+      "path": "data/private_analytics/yugsa_extended/2026-09-12/9de11b5f84209492/windows.csv",
+      "sha256": "d44fbab3464f257255cde7eb8c1f8d581927e871b6a1366b55d1b793c0a6de14"
+    },
+    {
+      "path": "data/private_analytics/yugsa_extended/2026-09-12/9de11b5f84209492/pattern_change_events.csv",
+      "sha256": "2e2b405cb9a402e940a166957f0d5b57aaecf62474d51a5453a04f10f070cd59"
+    },
+    {
+      "path": "downloaded_results/yugsa_tv_shorts_tribe_v2_d271453ad865/inference/worker_shards/P9n3oy1kfGw/attempts/01_video32_text16_brain32/model_events/P9n3oy1kfGw.json",
+      "sha256": "1cdb5bc1ad2fb10859d4017ee098dd70c723ea2d60e72df42d27b7e0eaff4237"
+    },
+    {
+      "path": "paper/IEEE_access/data/submission_audit/fair_model_metrics.csv",
+      "sha256": "20be80ac41066ff62ddcc6d59ed2961761bc8fd914758badddaec3b01bbfd9a3"
+    },
+    {
+      "path": "paper/IEEE_access/data/submission_audit/fair_model_oof_predictions.csv",
+      "sha256": "f3303b26a65830d60f33c4da7a1fa7232664577e3efdd05476917afcd397c675"
+    },
+    {
+      "path": "paper/IEEE_access/data/submission_audit/matched_pattern_change_controls.csv",
+      "sha256": "16570215beb132b61f27071a56a6fb7838ff177fee49835fb1a2e79895c51e13"
+    },
+    {
+      "path": "downloaded_results/yugsa_tv_shorts_tribe_v2_d271453ad865/inference/worker_shards/P9n3oy1kfGw/attempts/01_video32_text16_brain32/cortical_predictions/P9n3oy1kfGw.npy",
+      "sha256": "28901041039d662572e21d4c9cc346382279057d15b6c49703811c6f068360cd"
+    },
+    {
+      "path": "downloaded_results/yugsa_tv_shorts_tribe_v2_d271453ad865/inference/worker_shards/P9n3oy1kfGw/attempts/01_video32_text16_brain32/surface_summaries/P9n3oy1kfGw.npz",
+      "sha256": "0f5874ddd2b7de293fc7637502e75eb7ee4502b24bc13bcca47bea667d62a6fd"
+    }
+  ],
+  "surface_color_limit": 0.8446787595748901,
+  "profile_color_limit": 0.24062880476332557,
+  "heatmap_labels": {
+    "Reward": "reward",
+    "Aversion": "aversion",
+    "Social": "social_value",
+    "Engage.": "engagement",
+    "Visual": "visual_processing",
+    "Audio": "auditory_processing"
+  },
+  "thumbnail_policy": {
+    "source": "complete frames from separate verified public Shorts",
+    "display_only": true,
+    "cropping": "none",
+    "sources": [
+      {
+        "label": "Short A",
+        "video_id": "22jxeSLOhq0",
+        "time_seconds": 0.5,
+        "path": "data/processed/yugsa_tv_shorts_snapshot/local_media_staging/collection/yugsa_tv/media/22jxeSLOhq0.mkv",
+        "sha256": "0a538d4086ec26ff188a9a1bd3ed57b94583986c8a68a77f061185d34589fef3",
+        "dimensions": [
+          1080,
+          1920
+        ]
+      },
+      {
+        "label": "Short B",
+        "video_id": "J9u57AavaXE",
+        "time_seconds": 47.7,
+        "path": "data/processed/yugsa_tv_shorts_snapshot/local_media_staging/collection/yugsa_tv/media/J9u57AavaXE.mkv",
+        "sha256": "df608d8be6740f0e685b64f388043ac39ae5e7a9870557d6d6b4d23064e45ade",
+        "dimensions": [
+          1080,
+          1920
+        ]
+      },
+      {
+        "label": "Short C",
+        "video_id": "KdbWaBQGCnA",
+        "time_seconds": 0.5,
+        "path": "data/processed/yugsa_tv_shorts_snapshot/local_media_staging/collection/yugsa_tv/media/KdbWaBQGCnA.mkv",
+        "sha256": "913e1f3d64708c5d489ef63b97c0fb7fd4402e6ee27546d968a12738050ff6f9",
+        "dimensions": [
+          720,
+          1280
+        ]
+      },
+      {
+        "label": "Short D",
+        "video_id": "PHRqJHT8yOg",
+        "time_seconds": 0.5,
+        "path": "data/processed/yugsa_tv_shorts_snapshot/local_media_staging/collection/yugsa_tv/media/PHRqJHT8yOg.mkv",
+        "sha256": "4ca4f1f86d8514ba52d7357783e9aedd4503eb8eefd44036c107d51ff81689a1",
+        "dimensions": [
+          1080,
+          1920
+        ]
+      }
+    ],
+    "manual_visual_check": "pass: no visible faces in selected frames"
+  },
+  "figure_inches": [
+    13.97,
+    8.54
+  ],
+  "intended_print_inches": [
+    6.989,
+    4.272
+  ],
+  "minimum_font_points_at_print_size": 7.5,
+  "code_sha256": "5c861128d6e6510f26ff9bf960133c3f36b3bcd0e0d9c54502732389ec8caf8f",
+  "outputs": [
+    {
+      "path": "paper/IEEE_access/figures/00_pipeline_overview.pdf",
+      "sha256": "ea312d186553e22a59aece39da645eb95c3684f6ec922e99291bc6ec79598e4c"
+    },
+    {
+      "path": "paper/IEEE_access/figures/00_pipeline_overview.svg",
+      "sha256": "c246bc2048e5d290927c95234ce3ea0824cbcea6824afb7ccc474008050478da"
+    },
+    {
+      "path": "paper/IEEE_access/figures/00_pipeline_overview.png",
+      "sha256": "6b3eaa6182cb352a43d5772ea5c2d6946cdb118e99826c199f27b8b4af77af35"
+    }
+  ]
+}

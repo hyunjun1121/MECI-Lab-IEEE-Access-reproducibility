@@ -1,0 +1,27 @@
+{
+  "generator": "paper/IEEE_access/build_review_figures.py",
+  "inputs": [
+    "data/submission_audit/fair_model_metrics.csv",
+    "data/submission_audit/matched_pattern_change_control_summary.csv",
+    "data/cross_channel_transfer.csv"
+  ],
+  "outputs": [
+    {
+      "path": "figures\\02_predictive_increment.pdf",
+      "sha256": "56ffa862f4b548d32e6a136293945799156d72e5c6adae9f748159fff0c903fd"
+    },
+    {
+      "path": "figures\\05_pattern_change_events.pdf",
+      "sha256": "82742573fb28e104a1f76afba5c1d270b1e2795eaa436dec78d8355694ab6fb3"
+    },
+    {
+      "path": "figures\\03_cross_channel.pdf",
+      "sha256": "5169a32fb10314c6a434ddfe40feb722dd2beeb1361b820d71ced1e4fa61811e"
+    }
+  ],
+  "interpretation": {
+    "prediction": "same-family Ridge feature-set comparison; lower MAE is better",
+    "events": "event, matched control, and event-minus-control descriptive contrasts",
+    "transfer": "held-out R2 boundary display with zero baseline"
+  }
+}

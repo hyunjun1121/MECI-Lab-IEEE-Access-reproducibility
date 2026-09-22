@@ -1,0 +1,127 @@
+\appendices
+
+\section{Feature and Outcome Definitions}
+\label{app:definitions}
+
+Table~\ref{tab:profiles} defines the six region-based profiles used in the manuscript. Each profile is an unweighted mean of predicted cortical values over the listed parcel masks from the anatomical cortical parcellation used for spatial aggregation \cite{destrieux2010parcellation}. The labels are spatial shorthand for reproducible aggregation and are not claims about a viewer's psychological state.
+
+\begin{table*}[!b]
+\caption{Region-based content profiles used in the primary analysis.}
+\label{tab:profiles}
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{@{}lllX@{}}
+\toprule
+Profile & Parcel summary & Output role & Interpretation boundary \\
+\midrule
+Reward & Frontomarginal and rectus gyri & Region-based cortical content descriptor & Does not establish reward or positive affect in a viewer. \\
+Aversion & Short insular gyrus and anterior circular insular sulcus & Region-based cortical content descriptor & Does not establish avoidance, discomfort, or rejection. \\
+Social value & Anterior-mid cingulate and angular parietal parcels & Region-based cortical content descriptor & Does not establish social valuation or a social judgment. \\
+Engagement & Dorsal and ventral posterior cingulate parcels & Region-based cortical content descriptor & Does not establish attention, immersion, or viewing persistence. \\
+Visual processing & Calcarine, cuneus, and medial occipito-temporal parcels & Region-based cortical content descriptor & Describes a model summary of visual stimulus content. \\
+Auditory processing & Planum temporale and transverse temporal parcels & Region-based cortical content descriptor & Describes a model summary of auditory stimulus content. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+The whole-cortex pattern-change descriptor is one minus the correlation between adjacent cortical vectors after within-vector centering. The persisted TRIBE outputs are one-second intervals; for the primary analysis, these are overlap-weighted into adjacent five-second windows before the pattern-change calculation. The first comparison and any constant-vector comparison are undefined and omitted. No composite score is formed by summing the six profiles.
+
+% Flush Appendix A's wide table before beginning the audit appendix.
+\clearpage
+\section{Submission Audit and Robustness Results}
+\label{app:audit}
+
+The submission audit was run from the frozen extended-analysis tables without media collection, model loading, OAuth access, or GPU inference. The audit output is identified by the \texttt{audit\_manifest.json} file in the submission-audit directory. The inference configuration used a four-second, 64-frame model input clip and produced one-second persisted cortical intervals. The analysis used five-second windows with temporal-overlap weighting, seed 33, 500 circular shifts per video-feature-outcome combination, and the fold rules recorded in the manifest. The text-event alignment exclusion threshold was 0.05 unmatched words divided by word records; it was an execution setting, not a preregistered decision.
+
+The main position-adjusted comparisons were recomputed after applying the same cubic residualization to observed and shifted feature series. Table~\ref{tab:null} reports the key observed and null means. The null values are design diagnostics; they are not reported as a new multiple-testing significance procedure.
+
+\begin{table*}[!b]
+\caption{Position-adjusted circular-shift audit for selected associations.}
+\label{tab:null}
+\centering
+\scriptsize
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Outcome & Feature & Videos & Observed mean $\rho$ & Null mean $\rho$ & Observed minus null \\
+\midrule
+Audience watch ratio & Social value & 140 & 0.437 & -0.011 & 0.448 \\
+Audience watch ratio & Aversion & 140 & 0.417 & -0.009 & 0.426 \\
+Audience watch ratio & Reward & 140 & 0.374 & -0.018 & 0.392 \\
+Exit intensity & Pattern change & 109 & 0.281 & -0.026 & 0.307 \\
+Exit intensity & Amplitude change & 109 & 0.278 & -0.016 & 0.293 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+For the matched event control, 92 transition pairs were available across 84 videos. The event-minus-control arithmetic contrasts were -0.0811 for audience watch ratio, +0.00713 for exit intensity, and -0.0493 for relative retention performance. The mean normalized-position distance between event and control transitions was 0.192. These values support retaining the event display as a review-candidate analysis while keeping its interpretation descriptive; they are not causal difference-in-differences estimates \cite{bertrand2004did}.
+
+The fair model audit compared three feature sets under both Ridge and the same fixed HistGradientBoosting model, a histogram-based gradient boosting design in the LightGBM family \cite{ke2017lightgbm}: metadata only, metadata plus six profiles, and metadata plus profiles plus temporal changes. All preprocessing and Ridge alpha selection occurred inside the training fold, and video identity was kept intact across folds. Keeping model selection inside the training fold avoids the error-estimation bias described for cross-validation model selection \cite{varma2006crossvalidation}. Table~\ref{tab:nonlinear} gives the nonlinear exit-intensity comparison; the primary manuscript uses Ridge because its feature-set comparison is easier to audit and explain.
+
+\begin{table*}[!b]
+\caption{Same-family nonlinear audit for exit intensity.}
+\label{tab:nonlinear}
+\centering
+\scriptsize
+\begin{tabular}{@{}lllrrr@{}}
+\toprule
+Split & Feature set & Videos & MAE & $R^2$ & Pooled Spearman \\
+\midrule
+Grouped & Metadata & 190 & 0.005394 & 0.580 & 0.643 \\
+Grouped & Metadata + profiles + changes & 190 & 0.005309 & 0.605 & 0.638 \\
+Chronological & Metadata & 38 & 0.006209 & 0.395 & 0.629 \\
+Chronological & Metadata + profiles + changes & 38 & 0.006014 & 0.420 & 0.611 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The stored window-sensitivity analysis changes the width used to form the
+within-video high-versus-low outcome contrast while retaining the common
+140-video cohort. Table~\ref{tab:sensitivity} reports the contrast for the
+three profiles that are most visible in the primary audience-watch-ratio
+association display. Each value is the profile mean in the top-quartile
+audience-watch-ratio windows minus the profile mean in the bottom-quartile
+windows, computed within each video and then summarized across videos. A
+negative value therefore means that the model-derived profile value was lower
+in the high-watch windows under this descriptive comparison; it does not
+indicate a causal effect or a viewer state. Their purpose is to show how the
+profile ordering behaves when the temporal aggregation changes from three to
+ten seconds.
+
+\begin{table*}[!b]
+\caption{Window-width sensitivity for selected audience-watch-ratio contrasts.}
+\label{tab:sensitivity}
+\centering
+\scriptsize
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Feature & Window width (s) & Videos & High-watch minus low-watch profile mean & 95\% video-bootstrap interval \\
+\midrule
+Social value & 3  & 140 & -0.128 & [-0.136, -0.119] \\
+Social value & 5  & 140 & -0.111 & [-0.120, -0.103] \\
+Social value & 10 & 140 & -0.086 & [-0.093, -0.078] \\
+Aversion & 3  & 140 & -0.105 & [-0.114, -0.098] \\
+Aversion & 5  & 140 & -0.089 & [-0.097, -0.081] \\
+Aversion & 10 & 140 & -0.063 & [-0.070, -0.056] \\
+Reward & 3  & 140 & -0.031 & [-0.034, -0.029] \\
+Reward & 5  & 140 & -0.029 & [-0.031, -0.026] \\
+Reward & 10 & 140 & -0.023 & [-0.025, -0.020] \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Extended Descriptive Analyses}
+\label{app:extended}
+
+The following analyses were completed from the same frozen result set and are retained for transparency rather than promoted to primary claims. Topic summaries describe distributions of content labels and outcomes. Retention-cluster candidates describe curve shape and are not validated audience types. The full three-, five-, and ten-second window sensitivity tables, all cortical parcel screens, API-context associations, and video-level out-of-fold predictions remain in the aggregate audit and extended-analysis directories.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.47\textwidth]{06_topic_summary.pdf}\hfill
+\includegraphics[width=0.47\textwidth]{08_retention_cluster_stability.pdf}
+\caption{Extended descriptive analyses: (a) retention summaries across deterministic content labels and (b) stability checks for candidate retention-curve cluster counts.}
+\label{fig:extended}
+\end{figure*}
+
+\section{Reproducibility Record}
+\label{app:repro}
+
+The primary analysis used four-second, 64-frame model input clips, one-second persisted cortical intervals, five-second analysis windows, bootstrap seed 33, 2,000 video-bootstrap repetitions, grouped five-fold evaluation, a chronological 80/20 check, and a Ridge alpha grid of $[0.01,0.1,1,10,100,1000]$. The submission audit added 500 position-adjusted circular shifts per eligible combination and a matched-position event control. Source and derived-file hashes are recorded in the original extended-analysis \texttt{MANIFEST.json}, the submission-audit \texttt{audit\_manifest.json}, and the paper-package figure provenance. The public package excludes raw media, private Analytics responses, credentials, model weights, and runtime caches.
