@@ -1,6 +1,6 @@
 \documentclass{ieeeaccess}
 
-% IEEE Access template-based draft. Replace all AUTHOR_* placeholders before submission.
+% IEEE Access manuscript source.
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
@@ -19,10 +19,8 @@
 
 \begin{document}
 
-\history{Draft prepared for author review on September 16, 2026.}
-\doi{10.1109/ACCESS.DRAFT.2026.0000000}
-
 \title{Temporal Content Analysis with TRIBE v2 and Owner-Authorized YouTube Analytics}
+\doi{}
 
 \author{\uppercase{HYUNJUN KIM}\authorrefmark{1}, \uppercase{JAEWOO LEE}\authorrefmark{1}, \uppercase{HYUN-MYUNG LIM}\authorrefmark{1}, and \uppercase{HYUNHO KIM}\authorrefmark{1}}
 \address[1]{Korea Military Academy, Seoul 01805, Republic of Korea (e-mail: hyunjun1121@kaist.ac.kr; simonlee98@chauniv.ac.kr; onlybyhim@kma.ac.kr; kimhyuh@kma.ac.kr)}
@@ -147,7 +145,7 @@ The audit also fits the same fixed HistGradientBoosting implementation from scik
 Within each video, candidate events were selected from the top decile of the pattern-change descriptor with at least ten seconds between candidates. A candidate required a contiguous preceding, current, and following five-second window, so endpoints and incomplete transitions were excluded. The adjacent before and after windows were compared. The matched control was the nearest non-event transition in the same video by normalized position. The procedure produced 93 candidate transitions across 85 videos and 92 complete event-control pairs across 84 videos; the mean normalized-position distance was 0.1918. The resulting display is a review queue: it identifies locations for a human to inspect, not scenes that an algorithm should automatically remove.
 
 \subsection{Reproducibility and data governance}
-The analysis was run from the immutable aggregate-analysis manifest and the verified local TRIBE release. The submission audit records the source hashes, the 0.05 alignment threshold, four-second model input clip, one-second persisted interval, three/five/ten-second window widths, analysis cutoff, timezone, seed, bootstrap count, null permutations, feature sets, and fold rules. The repository contains code, aggregate tables, figure files, and checksums, following the findable, accessible, interoperable, and reusable data-stewardship principles for the aggregate artifacts \cite{wilkinson2016fair}. Raw media, model weights, runtime caches, raw Analytics responses, and private owner records are excluded. The final data-access statement must be replaced with the author-approved route and must reflect YouTube, model, and institutional constraints.
+The analysis was run from the immutable aggregate-analysis manifest and the verified local TRIBE release. The submission audit records the source hashes, the 0.05 alignment threshold, four-second model input clip, one-second persisted interval, three/five/ten-second window widths, analysis cutoff, timezone, seed, bootstrap count, null permutations, feature sets, and fold rules. The public GitHub repository and versioned Zenodo archive listed in the Data Availability statement provide the code, aggregate tables, figure files, configuration records, and checksums used to reproduce the reported analyses, following the findable, accessible, interoperable, and reusable data-stewardship principles for the aggregate artifacts \cite{wilkinson2016fair}. Raw media, model weights, runtime caches, raw Analytics responses, and private owner records are excluded.
 
 \section{Results}
 \label{sec:results}
@@ -297,7 +295,7 @@ No human participants were recruited, assigned, or measured. The analysis used p
 \section*{Acknowledgment}
 This work was supported by the 2026 research fund of the Korea Military Academy (Hwarangdae Research Institute).
 
-This draft was prepared with assistance from generative artificial intelligence tools for language drafting, code and document inspection, and LaTeX package preparation \cite{openAICodex}. The authors must review, verify, and take responsibility for all text, numerical results, citations, declarations, and interpretations before submission. The final manuscript must follow the IEEE policy for identifying sections that used AI-generated text and citing the AI system used.
+Generative artificial intelligence assistance from OpenAI Codex \cite{openAICodex} was used for language drafting and revision in the Abstract, Introduction, Related Work, Methods, Results, Discussion, Conclusion, and Appendix, and for code and document inspection and LaTeX/figure preparation. It was not used to create or alter source data, owner-authorized Analytics responses, model outputs, or statistical results. The authors independently verified all numerical results, citations, ethical and data-access statements, figures, and final wording and accept responsibility for the content.
 
 % Keep the reference list out of the declaration-page flow.
 \clearpage

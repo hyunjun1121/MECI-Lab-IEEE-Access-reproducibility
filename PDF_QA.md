@@ -1,6 +1,6 @@
 # IEEE Access PDF QA
 
-Checked: 2026-09-22
+Checked: 2026-09-23
 
 ## Build
 
@@ -16,8 +16,8 @@ pdflatex -interaction=nonstopmode -halt-on-error main.tex
 pdflatex -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-Result: `main.pdf`, 15 pages, 2,040,258 bytes after the 2026-09-22
-bibliography-integrity cleanup.
+Result: `main.pdf`, 15 pages, 2,015,467 bytes after the 2026-09-23
+submission-placeholder cleanup.
 Figures 1--7 are the main reader-facing sequence. Figure 8 is an integrated
 Appendix composite containing the two extended descriptive analyses. Tables
 1--7 and the full Appendix are included in the same PDF. The final LaTeX pass
@@ -119,6 +119,16 @@ audit reports PASS with 45 cited keys, 45 BibTeX entries, no unused keys, no
 missing keys, and complete evidence-matrix coverage. The reference pages were
 visually checked after the rebuild; no interleaved figure or clipping was found.
 
+### Submission-placeholder cleanup (2026-09-23)
+
+The publisher-assigned DOI and publication-history placeholders were removed
+from the title page; the template now suppresses the DOI row when no publisher
+DOI has been assigned. The reproducibility paragraph now points to the public
+GitHub/Zenodo route already stated in Data Availability. The Acknowledgment
+now identifies the AI-assisted sections and the authors' verification
+responsibility. The PDF remains 15 pages and contains no draft DOI or draft
+history text; author biographies remain pending author input.
+
 ## Reference-density expansion QA (historical, 2026-09-16)
 
 After the bibliography grew from 17 to 46 verified entries, the changed pages
@@ -174,8 +184,8 @@ manuscript Appendix and audit manifest.
 
 ## Submission blockers
 
-This remains an author-review draft. Before submission, replace author,
-affiliation, correspondence, ORCID, funding, ethics determination, data and
-code access route, DOI/history placeholders, and every biography placeholder.
-The audit gates are complete; they should be rechecked only if source data,
-figures, or the analysis code changes.
+This remains an author-review draft. Before submission, add the four author
+biographies, associate all authors with their ORCID records in the submission
+system, and obtain final author approval for the declarations and AI-use
+disclosure. The audit gates are complete; they should be rechecked only if
+source data, figures, or the analysis code changes.

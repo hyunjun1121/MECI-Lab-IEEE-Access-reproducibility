@@ -7,11 +7,12 @@ recompilation.
 ## Current State
 
 - `main.pdf` is the latest compiled manuscript.
-- Current length: 16 pages.
-- The latest manual compile sequence completed successfully on 2026-09-21.
+- Current length: 15 pages.
+- The latest manual compile sequence completed successfully on 2026-09-23.
 - No unresolved citation or cross-reference warnings were detected.
-- Author, affiliation, declaration, ethics, funding, data-availability, and
-  biography placeholders still require author review before submission.
+- Author biographies and ORCID associations still require author input before
+  submission; ethics, funding, data availability, and AI disclosure are drafted
+  and require final author approval.
 
 ## Important Files
 

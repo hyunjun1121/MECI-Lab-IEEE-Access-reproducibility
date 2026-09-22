@@ -79,7 +79,11 @@ The included PDF is a layout-check artifact, not yet a submission file.
 
 ## Author actions still required
 
-Replace author, affiliation, correspondence, funding, ethics determination, data-availability, conflict-of-interest, and biography placeholders. Confirm the AI-use disclosure and the exact public/private data-sharing route. Do not submit this package until the author information and declarations have been approved.
+Provide the four author biographies and associate all authors with their ORCID
+records in the submission system. Confirm the ethics determination, conflict-of-
+interest statement, AI-use disclosure, author order, and declarations before
+submission. The public GitHub and Zenodo data/code route is already stated in
+`main.tex`.
 
 ## Source provenance
 

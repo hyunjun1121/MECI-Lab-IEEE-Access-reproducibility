@@ -600,7 +600,7 @@
 \def\indextitle{{\color{accessblue}\indexheadfont INDEX TERMS}\ifjtehm\quad\else\space\fi}
 \def\history#1{\gdef\@history{#1}}\let\@history\@empty%
 \def\artnum#1{\gdef\@artnum{#1}}
-\def\doi#1{\gdef\@doi{#1}}
+\def\doi#1{\gdef\@doi{#1}}\let\@doi\@empty
 \def\title#1{\gdef\@title{#1}}
 \def\authorrefmark#1{\textsuperscript{#1}}
 \def\corresp#1{\gdef\@corresp{#1}}\let\@corresp\@empty%
@@ -697,7 +697,7 @@
      \begin{tabular*}{\textwidth}{@{}p{2.96pc}@{}p{\titlewidth}@{}p{3.15pc}@{}}%
      &\begin{center}\vspace*{1.2mm}\vspace*{-1.21pc}\centering%
      {\vss\historyfont\@history\vss}\vspace*{2mm}\par%
-     {\vss\doifont Digital Object Identifier\space\@doi\vss}\vspace*{7.4mm}\par%
+     \ifx\@doi\@empty\else{\vss\doifont Digital Object Identifier\space\@doi\vss}\vspace*{7.4mm}\par\fi%
      {\vss\color{accessblue}\titlefont\@title\vss}\vspace*{6mm}\par%
      \ifjtehmeditorial\else{\vss\authorfont\@author\vss}\vspace*{1mm}\par%
        \@tempdima=\absht%\the\ht99%
@@ -735,7 +735,7 @@
      \begin{minipage}{\titlewidth}%
      \raggedright\vspace*{1.2mm}%
      \ifaccesseditors\else{\vss\historyfont\@history\vss}\vspace*{2mm}\par\fi%
-     {\vss\doifont Digital Object Identifier\space\@doi\vss}\vspace*{7.4mm}\par%
+     \ifx\@doi\@empty\else{\vss\doifont Digital Object Identifier\space\@doi\vss}\vspace*{7.4mm}\par\fi%
      {\vss\color{accessblue}\titlefont\@title\vss}\vspace*{6mm}\par%
      \ifaccesseditors\vspace*{2mm}\else{\vss\authorfont\@author\vss}\vspace*{0mm}\par%
 %       \@tempdima=\absht%\the\ht99%

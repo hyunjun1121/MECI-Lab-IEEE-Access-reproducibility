@@ -5,20 +5,19 @@
 
 ## 저자·제출 메타데이터
 
-- 저자명, 소속, 교신저자, ORCID, 약력 placeholder
-- 연구비, 이해상충, 감사의 글
-- 기관의 윤리 검토·면제·비해당 판단 문구
-- AI 사용 공개 문구가 실제 투고 규정과 저자 책임에 맞는지 확인
-- 논문 DOI/history 및 제출 시스템용 metadata
+- 네 저자의 짧은 biography 원고
+- 네 저자의 ORCID 연결 및 제출 시스템 metadata
+- 연구비, 이해상충, 감사의 글에 대한 최종 저자 확인
+- 기관의 윤리 검토·면제·비해당 판단 문구에 대한 최종 확인
+- AI 사용 공개 문구와 저자 책임에 대한 최종 확인
 
 ## 데이터 공개 경로
 
-원고에는 aggregate tables, figures, configuration, audit files를 포함한다고
-기록했지만, 최종 공개 저장소 URL과 비공개 YouTube Analytics 원자료의 접근
-절차는 확정하지 않았다. 저자·기관·YouTube 약관에 맞는 공개 범위를 정한 뒤
-`main.tex`의 Data Availability 문장을 교체해야 한다. raw Analytics 응답,
-원본 영상·오디오, credentials, model weights, runtime caches는 현재 패키지에
-넣지 않았다.
+원고에는 공개 GitHub 저장소와 버전 고정 Zenodo archive를 통한 aggregate
+tables, figures, configuration, audit files 공개 경로가 반영되어 있다.
+비공개 YouTube Analytics 원자료, 원본 영상·오디오, credentials, model
+weights, runtime caches는 현재 패키지에 넣지 않았다. 저자·기관·YouTube
+약관에 따른 최종 공개 범위만 확인하면 된다.
 
 ## 분석 관련 확인
 
