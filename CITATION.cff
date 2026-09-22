@@ -4,6 +4,7 @@ title: "Temporal Content Analysis with TRIBE v2 and Owner-Authorized YouTube Ana
 type: software
 version: 0.1.0
 date-released: 2026-09-22
+repository-code: https://github.com/hyunjun1121/MECI-Lab-IEEE-Access-reproducibility
 abstract: >-
   Reproducibility companion for a temporal content-analysis workflow that joins
   TRIBE v2 model-derived cortical representations with owner-authorized YouTube
