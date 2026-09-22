@@ -31,6 +31,19 @@ git push origin v1.0.0
 
 ## Zenodo
 
+### Important visibility limitation
+
+The current GitHub repository is private. Zenodo's GitHub integration does not
+have access to private repositories, so this repository may not appear in the
+Zenodo GitHub repository list.
+
+Choose one of these routes:
+
+- Keep GitHub private and upload a final ZIP manually through Zenodo. Set the
+  Zenodo record visibility according to the authors' publication plan.
+- Make the sanitized GitHub repository public only when the authors approve
+  public release, then enable the repository below for automatic archiving.
+
 1. Sign in to Zenodo with the GitHub account that owns the repository.
 2. Open **GitHub** settings and enable the repository.
 3. Create a GitHub release for `v1.0.0`, or let Zenodo archive that release.
