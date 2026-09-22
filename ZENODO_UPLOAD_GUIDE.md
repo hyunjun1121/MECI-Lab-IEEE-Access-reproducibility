@@ -25,8 +25,8 @@ git push -u origin main
 Create a version tag after the manuscript and metadata are final:
 
 ```powershell
-git tag -a v1.0.0 -m "First reproducibility release"
-git push origin v1.0.0
+git tag -a v1.0.1 -m "Update manuscript data availability DOI"
+git push origin v1.0.1
 ```
 
 ## Zenodo
@@ -36,12 +36,12 @@ integration for automatic release archiving.
 
 1. Sign in to Zenodo with the GitHub account that owns the repository.
 2. Open **GitHub** settings and enable the repository.
-3. Create a GitHub release for `v1.0.0`, or let Zenodo archive that release.
+3. Create a GitHub release for `v1.0.1`, or let Zenodo archive that release.
 4. Check the generated record metadata, author order, affiliation, keywords,
    funding information, and license.
 5. Publish the Zenodo record and copy its version DOI.
-6. Insert that DOI and public URL into the manuscript Data Availability
-   statement, then create a final manuscript release.
+6. Keep the DOI and public URL synchronized with the manuscript Data
+   Availability statement.
 
 Do not upload raw YouTube media, raw private Analytics responses, OAuth files,
 cookies, access tokens, model weights, runtime caches, or local virtual
