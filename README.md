@@ -19,7 +19,6 @@ Analytics-derived records and private owner reports are excluded.
 - `data/`: sanitized aggregate tables, configuration, and figure provenance.
 - `build_review_figures.py`: regenerates selected figures from included
   aggregate tables. It does not run TRIBE v2 or collect YouTube data.
-- `PDF_QA.md`: checks recorded for the compiled manuscript and public archive.
 - IEEE Access and bibliography template assets required to compile the paper.
 
 ## Build
