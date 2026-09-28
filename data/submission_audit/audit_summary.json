@@ -1,0 +1,33 @@
+{
+  "fair_feature_sets": [
+    "metadata",
+    "metadata_roi",
+    "metadata_roi_changes"
+  ],
+  "fair_model_families": [
+    "ridge",
+    "histgradient"
+  ],
+  "features_audited": [
+    "reward",
+    "aversion",
+    "social_value",
+    "engagement",
+    "visual_processing",
+    "auditory_processing",
+    "pattern_change",
+    "amplitude_change"
+  ],
+  "five_second_windows": 1745,
+  "matched_pattern_change_control": true,
+  "no_inference": true,
+  "position_adjusted_null": true,
+  "retention_videos": 190,
+  "source_videos": 194,
+  "status": "complete",
+  "targets_audited": [
+    "audienceWatchRatio",
+    "relativeRetentionPerformance",
+    "exit_intensity"
+  ]
+}

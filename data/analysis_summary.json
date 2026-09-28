@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "strict_videos": 194,
+  "retention_videos": 190,
+  "five_second_windows": 1745,
+  "end_date": "2026-09-12",
+  "unit": "video/content",
+  "no_inference": true,
+  "api_requests": 2910,
+  "api_retention_reports_complete": 852,
+  "api_retention_reports_empty": 118
+}

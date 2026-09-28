@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "end_date": "2026-09-12",
+  "timezone": "America/Los_Angeles",
+  "seed": 33,
+  "window_seconds": [
+    3,
+    5,
+    10
+  ],
+  "primary_window_seconds": 5,
+  "bootstrap_repeats": 2000,
+  "ridge_alphas": [
+    0.01,
+    0.1,
+    1,
+    10,
+    100,
+    1000
+  ],
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "scope": "Existing local TRIBE results and authorized read-only APIs; no inference or media download",
+  "targets": [
+    "audienceWatchRatio",
+    "relativeRetentionPerformance",
+    "exit_intensity"
+  ],
+  "secondary_targets": [
+    "internal_start_intensity"
+  ],
+  "first_month_days": 30,
+  "interpretation": "Content-level exploratory associations, not measured neural activity or causal viewer effects"
+}

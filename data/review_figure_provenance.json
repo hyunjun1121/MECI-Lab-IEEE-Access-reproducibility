@@ -1,0 +1,33 @@
+{
+  "generator": "build_review_figures.py",
+  "inputs": [
+    "data/submission_audit/fair_model_metrics.csv",
+    "data/submission_audit/matched_pattern_change_control_summary.csv",
+    "data/submission_audit/position_adjusted_circular_shift_summary.csv",
+    "data/cross_channel_transfer.csv"
+  ],
+  "outputs": [
+    {
+      "path": "figures\\01_continuous_associations.pdf",
+      "sha256": "92410e15719553689d068d3c1aaf128aed3e574ab98e88f5aef579d9b993d701"
+    },
+    {
+      "path": "figures\\02_predictive_increment.pdf",
+      "sha256": "9a871a1edd94c1cab56acc5bdb455167331381e06872e824b14efbb939dd4601"
+    },
+    {
+      "path": "figures\\05_pattern_change_events.pdf",
+      "sha256": "7af395f5548567ca65c6a0258641d68fec5c55f511871958ba87e5fc94724545"
+    },
+    {
+      "path": "figures\\03_cross_channel.pdf",
+      "sha256": "639360cff9ee65eb1f0205381de70163f2199f2109fac2fa9fff7ae3794008f3"
+    }
+  ],
+  "interpretation": {
+    "prediction": "same-family Ridge feature-set comparison; lower MAE is better",
+    "associations": "position-adjusted within-video correlations with 95% video-bootstrap intervals",
+    "events": "event, matched control, and event-minus-control descriptive contrasts",
+    "transfer": "held-out R2 boundary display with zero baseline"
+  }
+}

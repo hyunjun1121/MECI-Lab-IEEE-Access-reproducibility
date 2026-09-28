@@ -1,0 +1,341 @@
+\documentclass{ieeeaccess}
+
+% IEEE Access manuscript source.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{bm}
+\usepackage{stfloats}
+\graphicspath{{figures/}}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\vol{14}
+\year{2026}
+
+\title{Temporal Content Analysis with TRIBE v2 and Owner-Authorized YouTube Analytics}
+\doi{}
+
+\author{\uppercase{HYUNJUN KIM}\authorrefmark{1,2}, \uppercase{JAEWOO LEE}\authorrefmark{1,3}, \uppercase{HYUNHO KIM}\authorrefmark{1}, and \uppercase{HYUN-MYUNG LIM}\authorrefmark{1}}
+\address[1]{Korea Military Academy, Seoul 01805, Republic of Korea (e-mail: kimhyuh@kma.ac.kr; onlybyhim@kma.ac.kr)}
+\address[2]{Korea Advanced Institute of Science and Technology (KAIST), Daejeon, Republic of Korea (e-mail: hyunjun1121@kaist.ac.kr)}
+\address[3]{CHA University, Seongnam, Republic of Korea (e-mail: simonlee98@chauniv.ac.kr)}
+\tfootnote{Hyunjun Kim and Jaewoo Lee contributed equally to this work.}
+
+\markboth{HYUNJUN KIM \headeretal: TEMPORAL CONTENT ANALYSIS WITH TRIBE V2}
+{HYUNJUN KIM \headeretal: TEMPORAL CONTENT ANALYSIS WITH TRIBE V2}
+
+\corresp{Corresponding author: Hyun-Myung Lim (e-mail: onlybyhim@kma.ac.kr).}
+
+\begin{abstract}
+This paper evaluates whether a time-indexed content representation can organize short-form video segments for editorial review alongside owner-authorized YouTube Analytics. The primary study uses a frozen public Shorts-tab frame from an official military channel: 197 catalog items, 194 strict non-fallback TRIBE v2 outputs, 190 videos with non-empty retention reports, and 1,745 five-second analysis windows. TRIBE v2 predicted cortical values were summarized into six anatomically defined cortical profiles and whole-cortex change descriptors, then aligned to the platform time axis. After cubic position adjustment, cingulo-parietal and anterior-insular profiles showed the largest associations with audience watch ratio, while cortical pattern change was associated with segment-level exit intensity. In Ridge evaluation of five-second windows grouped by video, adding profiles and temporal changes reduced exit-intensity mean absolute error from 0.006237 to 0.005954; the chronological point estimate changed from 0.006476 to 0.006090, with an interval that included zero. Improvements were not uniform across outcomes. A separate 2,312-video public-view channel analysis did not support cross-channel transfer. The contribution is a reproducible workflow for organizing time-local editorial review, not a measurement of viewer brain activity, psychological state, learning, or causality.
+\end{abstract}
+
+\begin{keywords}
+Audience retention, cortical representation, multimodal video analysis, reproducibility, TRIBE v2, video analytics, YouTube Analytics
+\end{keywords}
+
+\titlepgskip=-21pt
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+\PARstart{S}{hort-form} video is treated here as a format for public communication, education, and institutional storytelling. Research on short-video platforms describes an established communication and cultural format \cite{kaye2022tiktok}, and studies of YouTube Shorts document measurable interactions between short-form distribution and audience behavior \cite{rajendran2024shorts}. Public communication campaigns are a long-standing instrument of institutional outreach \cite{rice2013campaigns}, and military advertising has also been empirically evaluated as an institutional communication activity \cite{dertouzos2003military}. In online educational video, production choices and viewing behavior can be measured at scale \cite{guo2014video,breslow2013studying}, while multimedia-learning theory describes how audiovisual design shapes the presentation and processing of information \cite{mayer2009multimedia}. These findings motivate a content-analysis problem: can a video be represented in a time-local form that makes editorial questions measurable?
+
+Audience-retention reports preserve a video-time axis. The YouTube Analytics API provides aggregate audience-watch-ratio and relative-retention measures indexed by elapsed video position, including reports for specific owner-authorized content \cite{youtubeRetentionAPI}. These are platform observations; they do not by themselves identify why an individual stopped watching, whether the content was understood, or whether learning occurred \cite{gasevic2015learning}. A second representation is needed if the analysis is to describe the content itself rather than only its final platform outcome.
+
+TRIBE v2 is one possible representation. It combines visual, auditory, and language inputs to predict values on a cortical surface from naturalistic audiovisual stimuli \cite{dascoli2026tribev2}, extending an earlier tri-modal whole-brain encoder \cite{dascoli2025tribe}. In this study, the prediction is used as a structured, time-varying descriptor of the audiovisual stimulus. It is not treated as measured functional magnetic resonance imaging (fMRI), a neural response from a Korean viewer, or evidence that a named psychological state occurred.
+
+The contribution of this paper is a reproducible evaluation procedure rather than a new brain model. The procedure joins a fixed multimodal representation to owner-authorized platform observations, preserves their common video-time axis, and tests whether the representation adds information beyond basic video metadata. It is evaluated on a complete frozen Shorts-tab frame from an official military channel and stress-tested with a separate public-view channel. The study addresses three questions:
+
+\begin{enumerate}
+    \item After adjusting for the common position of a segment within a video, are TRIBE-derived content descriptors associated with audience retention and viewing termination?
+    \item Under the same video-grouped evaluation split, does adding region-based cortical descriptors and temporal pattern changes improve prediction for five-second windows relative to basic metadata?
+    \item Can the combined representation nominate concrete video segments for human editorial review without becoming an automated decision rule?
+\end{enumerate}
+
+The paper makes four contributions. First, it defines a reproducible alignment procedure for persisted model segments and owner-authorized retention reports. Second, it separates video-level summaries from within-video temporal analysis. Third, it compares metadata-only and representation-enriched models for five-second windows while keeping all windows from a video in the same evaluation fold, including a same-family nonlinear audit. Fourth, it reports a negative cross-channel transfer result as a practical boundary. The central claim is procedural: model-derived cortical representations can be evaluated as one content-analysis input for temporal editorial review, but their usefulness is outcome-specific and requires prospective validation.
+
+Figure~\ref{fig:workflow} uses the video “Global KMA: Poland exchange semester,” selected by proximity to median duration among locally available complete cases, for the audio envelope, model-input text, cortical maps, and retention curves. The portrait frames in panel (a) are visual examples from other videos in the same public military-Shorts corpus; they are not the source of the aligned traces in panels (b) and (c). The cortical maps share a scale, while the anatomical-profile heatmap uses a separate scale. Pattern-change values mark five-second window boundaries, whereas retention values mark window centers. Orange marks the 25-s review candidate irrespective of outcome direction. Panel (d) depicts five video-grouped folds and the cohort-level error comparison.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{00_pipeline_overview.pdf}
+\caption{Video-to-cortex workflow; panel (a) shows separate corpus examples.}
+\label{fig:workflow}
+\end{figure*}
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Audience behavior as an aggregate signal}
+Audience-retention curves make an otherwise diffuse viewing process observable along a video-time axis, with platform-defined measures for elapsed position and audience behavior \cite{youtubeRetentionAPI}. Large-scale course and lecture-video studies show that engagement varies systematically with in-video position and that dropout and rewatching concentrate at identifiable timestamps \cite{breslow2013studying,kim2014dropouts}. Short-form platform research documents the reach and production culture of the format \cite{kaye2022tiktok} and its measurable interaction with long-form viewing \cite{rajendran2024shorts}. These curves can reveal broad position effects and local changes, but they remain aggregate platform statistics. They do not identify the reason for an individual departure, comprehension, or learning. This distinction is consistent with cautions in learning analytics that behavioral traces should be interpreted in relation to a substantive learning question rather than treated as self-sufficient evidence \cite{gasevic2015learning}. Here, retention is an external aggregate outcome for evaluating a content representation.
+
+\subsection{Multimodal video representation}
+Contemporary video understanding rests on learned multimodal and self-supervised representations: image--language contrastive models transfer natural-language supervision to vision \cite{radford2021clip}, multi-rate architectures capture temporal structure at coarse and fine resolutions \cite{feichtenhofer2019slowfast}, and latent-prediction models learn video representations without labels \cite{assran2025vjepa2}; survey treatments formalize how such synchronized streams are combined \cite{baltrusaitis2019multimodal}. The present representation retains synchronized visual, auditory, and language streams because TRIBE v2 is designed as a tri-modal model for naturalistic stimuli \cite{dascoli2026tribev2}. Evidence from online educational videos links production choices with observed viewing behavior \cite{guo2014video}; however, an aggregate viewing outcome does not by itself provide a time-local explanation of a particular channel's content. The present study retains the original multimodal model output and evaluates how it behaves when aligned with an independently collected platform report.
+
+\subsection{Brain-predictive representations}
+TRIBE v2 is a foundation model for predicting cortical responses to naturalistic audiovisual stimuli \cite{dascoli2026tribev2}, extending an earlier tri-modal whole-brain encoder \cite{dascoli2025tribe}. The underlying research program is well established: encoding models formally predict measured brain responses from stimulus features \cite{naselaris2011encoding}; natural-image identification \cite{kay2008identifying}, natural-movie reconstruction \cite{nishimoto2011naturalmovies}, and semantic maps derived from natural speech \cite{huth2016naturalspeech} related time-varying naturalistic stimuli to distributed cortical representations; and feature hierarchies optimized for vision proved predictive of cortical response patterns, including dynamic natural vision \cite{yamins2014performance,wen2018neural}. Parallel efforts align pretrained multimodal features to movie-evoked responses \cite{villanueva2025predicting}. Those studies motivate a structured stimulus representation; they do not validate the present channel application. A cortical-surface prediction is not equivalent to a measured response in a new audience. Its value here is narrower and testable: it supplies a structured, high-dimensional representation of stimulus content that can be summarized over time. An anatomical cortical atlas defines the parcel masks used for six region-based summaries; it provides spatial boundaries, not psychological labels or evidence that a viewer state occurred \cite{destrieux2010parcellation}.
+
+\subsection{Prediction and explanation}
+A model that improves a held-out error metric is not thereby a causal explanation of audience behavior. Prediction and explanation answer different questions and require different designs \cite{yarkoni2017prediction,shmueli2010explain}. Comparisons between matched training and test distributions further show that apparent generalization can disappear under distribution shift \cite{recht2019imagenet}. Accordingly, this paper reports error, robustness, and transfer behavior as evaluation results. It does not infer that a cortical descriptor causes retention, that a scene transition caused an audience change, or that the model can replace human editorial judgment.
+
+\section{Data and Study Design}
+\label{sec:data}
+
+\subsection{Primary channel and frozen frame}
+The primary frame was a frozen public Shorts-tab catalog for YugsaTV, an official military channel. The catalog contained 197 public items at the snapshot date. The channel owner authorized read-only access to YouTube Analytics for these reports. The analysis cutoff was September 12, 2026, and the Analytics reporting timezone was America/Los\_Angeles. Retention reports were queried from each video's publication date through the common cutoff; observation windows therefore differ across videos.
+
+The unit of analysis is the video record and its time-indexed aggregate report. No participants were recruited or measured. The analysis contains no individual viewer records, individual service-member records, comment text, or private person-level data. Raw video and audio files are not redistributed. Owner-authorized Analytics responses remain private; only aggregate derived tables and figures needed for the manuscript are staged in the paper package.
+
+\subsection{Nested inclusion frame}
+The fixed inference run produced 194 strict, non-fallback TRIBE v2 outputs. Three catalog items were excluded before prediction because the run configuration rejected records whose unmatched-word ratio exceeded 0.05: \texttt{HnyZ72iYlH0} (1/18), \texttt{XiPeSUCdcHM} (1/1), and \texttt{nYGyDessKGY} (1/7). The threshold was fixed in the execution configuration before this result analysis; it was not preregistered. No audio-only, video-only, or simulated fallback was used. Among the 194 predicted videos, 190 returned non-empty retention reports. Four videos returned empty Analytics responses and were retained as missing rather than converted to zero retention. The primary five-second analysis contained 1,745 valid windows. Table~\ref{tab:coverage} reports the nested frame.
+
+\begin{table*}[t]
+\caption{Nested coverage of the primary owner-authorized analysis frame.}
+\label{tab:coverage}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabularx}{\textwidth}{@{}lrlX@{}}
+\toprule
+Stage & Count & Role & Boundary \\
+\midrule
+Frozen public Shorts-tab catalog & 197 & Sampling frame & Dated channel snapshot, not all current or historical uploads. \\
+Strict non-fallback TRIBE v2 outputs & 194 & Model-derived content representation & Predicted cortical values, not measured viewer neural activity. \\
+Non-empty owner Analytics retention reports & 190 & Primary platform outcome & Aggregate reports, not individual viewing histories or learning outcomes. \\
+Primary five-second windows & 1,745 & Within-video temporal unit & Windows from one video remain clustered within that video. \\
+Six region-profile association screens & 140 & Video-level summaries & At least eight valid five-second observations per video after feature/outcome filtering. \\
+Temporal-change association screens & 109 & Video-level summaries & Additional missing first-window or constant-vector values reduce the eligible video count. \\
+KFN auxiliary strict outputs & 2,312 & Cross-channel stress test & Public-view analysis without owner-authorized retention curves. \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Auxiliary channel}
+KFN Shorts supplied a separate public-metadata stress test. Its frozen catalog contained 2,321 items and 2,312 strict, non-fallback outputs. Public view counts and model-derived summaries were used to test whether a representation calibrated on the primary channel transferred to a different channel. This is not a second owner-authorized retention study and is not evidence for a universal military-video law.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{Model-derived content representation}
+TRIBE v2 processes synchronized visual, auditory, and language inputs \cite{dascoli2026tribev2} and produces predicted values on an fsaverage5 cortical surface with 20,484 vertices in the persisted run. In the persisted configuration, the visual stream uses frozen V-JEPA~2 features \cite{assran2025vjepa2}, the auditory stream uses a frozen W2v-BERT~2.0 checkpoint \cite{chung2021w2vbert}, and the language stream uses frozen Llama~3.2 features \cite{grattafiori2024llama3}; each backbone serves as a fixed feature extractor, consistent with the model's published configuration. The fsaverage5 surface is a standard coarse cortical reference geometry from the FreeSurfer suite \cite{fischl2012freesurfer}. The visual input used 64 frames from a four-second clip, while the model produced one-second prediction intervals. These are different temporal resolutions, not a one-clip-to-one-output mapping: each prediction row is indexed by the explicit start and stop boundaries returned for its segment. The persisted intervals were contiguous and one second long in all 194 strict outputs.
+
+The six profiles are unweighted means of predicted values over fixed parcel masks from an anatomical cortical atlas \cite{destrieux2010parcellation}. We name them by anatomy: frontal, anterior-insular, cingulo-parietal, posterior-cingulate, visual-cortical, and auditory-cortical profiles. They were selected as a compact, fixed set spanning distinct cortical territories for descriptive comparison, not as validated measures of particular psychological functions and not from the retention associations. Legacy feature identifiers are listed only to map these reader-facing names to the released analysis files. For adjacent five-second cortical vectors $\mathbf{x}_{j-1}$ and $\mathbf{x}_j$, pattern change is $1-r_j$, where $r_j$ is their Pearson correlation after centering each vector across vertices. Mean absolute cortical change is $M_j=V^{-1}\sum_{v=1}^{V}|x_{j,v}-x_{j-1,v}|$, with $V=20{,}484$; this is stored as \texttt{amplitude\_change} in the analysis files. Both descriptors are computed from adjacent overlap-weighted five-second aggregates of the persisted one-second outputs; the first comparison and constant-vector pattern correlations are undefined and omitted. They describe changes in the model's content representation, not neural events or physiological transitions. Appendix A defines the profiles and both change measures.
+
+\subsection{Time alignment and outcomes}
+The primary analysis used five-second windows; three- and ten-second windows were retained for sensitivity analysis. Each saved cortical prediction is paired with the model-returned segment's start and stop times. TRIBE v2 documents a five-second backward offset in its predictions to compensate for hemodynamic lag; we use the returned segment timeline unchanged and do not add a second shift. These one-second intervals and the Analytics one-percent position bins were mapped onto the same elapsed-video axis. Each analysis window was retained only when the cortical intervals covered it and the available Analytics bins covered it; cortical and Analytics values were combined with their respective temporal-overlap weights, and missing bins were not bridged.
+
+Three primary outcomes were used. The first is the platform audience watch-ratio report, which can exceed one when repeat watching is included. The second is the platform's relative-retention report, interpreted according to its comparison definition. These platform definitions and the available elapsed-position fields are documented by YouTube \cite{youtubeRetentionAPI}. The third, exit intensity, was calculated for each aligned window as \(\texttt{stoppedWatching}/\texttt{totalSegmentImpressions}\). The two count fields were fractionally allocated from the one-percent Analytics bins by temporal overlap; if any required bin was missing, the window outcome was missing, and a zero or nonfinite denominator produced a missing value. Exit intensity is an aggregate segment statistic, not an individual hazard rate or a probability that a particular viewer exited. The exact platform field names are retained in the machine-readable audit tables.
+
+\subsection{Position adjustment and association}
+Retention can vary systematically with video position. In-video dropout studies report position-dependent audience behavior \cite{kim2014dropouts}, and multimedia-learning research treats segmentation of material as a first-order design factor \cite{mayer2009multimedia}. For each video, normalized elapsed position $p\in[0,1]$ was entered as a cubic polynomial, $\beta_0+\beta_1p+\beta_2p^2+\beta_3p^3$, and this fitted trend was removed separately from the feature and outcome series \cite{hastie2009esl}. The cubic form allows a smooth curved position trend rather than assuming a linear one. Residuals were compared using a within-video Spearman rank correlation \cite{spearman1904association}. A video-feature-outcome combination was retained only with at least eight valid paired windows, leaving at least four residual degrees of freedom after estimating the four polynomial coefficients. The cubic order and eight-window rule were not preregistered and were not tuned to maximize the reported associations. The reported estimate is the arithmetic mean of video-level correlations. Intervals use complete-video bootstrap resampling with 2,000 repetitions and seed 33 \cite{efron1979bootstrap}.
+
+The submission audit applies the same cubic residualization before every circular-shift null correlation, in the spirit of surrogate-data testing for time series \cite{theiler1992surrogate}. It also constructs a matched transition for each high pattern-change event using the nearest non-event transition within the same video by normalized position. These checks are robustness diagnostics, not significance tests.
+
+\subsection{Window-level prediction with video-grouped evaluation}
+The prediction observation is a five-second window; video identity is the grouping unit for evaluation. The primary comparison uses video-grouped Ridge models \cite{hoerl1970ridge}. The metadata-only model contains duration, title length, description length, publication day, normalized position, and a deterministic topic label. This label is assigned by a fixed weighted keyword-rule classifier applied to each video's public title, description, and tags. Supported labels come from eight predefined content categories; records receiving the classifier's weak-fallback status are coded as the separate \texttt{unclassified} level. This is a metadata baseline, not a label generated by TRIBE v2. The two enriched feature sets add the six profile means and then the whole-cortex change descriptors. Standardization, imputation, categorical encoding, and Ridge alpha selection occur within the training fold; this separation matters because using the same data for model selection and error estimation can bias reported performance \cite{varma2006crossvalidation}. All windows from one video remain in one fold. A chronological 80/20 split provides a second time-ordered check. Mean absolute error (MAE) improvement is defined as metadata-only MAE minus enriched-model MAE, so positive values indicate lower error for the enriched model.
+
+The audit also fits the same fixed HistGradientBoosting implementation from scikit-learn \cite{pedregosa2011scikit}, a histogram-based gradient boosting design in the LightGBM family \cite{ke2017lightgbm}, to metadata-only and enriched feature sets. This prevents an apparent nonlinear improvement from being attributed to TRIBE features when the algorithm has changed at the same time. These nonlinear results are reported in Appendix B; the interpretable Ridge comparison is the primary manuscript result.
+
+\subsection{Cross-channel stress-test features}
+For the auxiliary transfer analysis, the target is cumulative public view count transformed as $\log(1+\text{views})$ at the frozen metadata snapshots (August 24, 2026, for YugsaTV and August 23, 2026, for KFN). Both channel models use $\log(1+\text{duration in seconds})$ and $\log(1+\text{upload age in days at the snapshot})$; views are not converted to a per-day rate. The enriched model adds the six duration-weighted cortical profile means. Imputation, scaling, and Ridge regularization selection over $[0.01,0.1,1,10,100,1000]$ are fit using only the source channel, then applied unchanged to the held-out target channel. The test uses public views, not owner-authorized retention measures.
+
+\subsection{Pattern-change review candidates}
+Within each video, candidate events were selected from the top decile of the pattern-change descriptor with at least ten seconds between candidates. A candidate required a contiguous preceding, current, and following five-second window, so endpoints and incomplete transitions were excluded. The adjacent before and after windows were compared. The matched control was the nearest non-event transition in the same video by normalized position. The procedure produced 93 candidate transitions across 85 videos and 92 complete event-control pairs across 84 videos; the mean normalized-position distance was 0.1918. The resulting display is a review queue: it identifies locations for a human to inspect, not scenes that an algorithm should automatically remove.
+
+\subsection{Reproducibility and data governance}
+The analysis was run from the immutable aggregate-analysis manifest and the verified local TRIBE release. The submission audit records the source hashes, the 0.05 alignment threshold, four-second model input clip, one-second persisted interval, three/five/ten-second window widths, analysis cutoff, timezone, seed, bootstrap count, null permutations, feature sets, and fold rules. The public GitHub repository contains the manuscript source, publication figures, and sanitized aggregate supporting files. The versioned Zenodo record listed in the Data Availability statement archives the bounded code-and-results release: the figure-generation script, configuration, checksums and provenance, aggregate result and audit tables, and publication-ready figures. The script regenerates selected figures from the released aggregates; the remaining tables and figures are supplied as artifacts. This release follows FAIR data-stewardship principles \cite{wilkinson2016fair}, but does not reproduce the full analysis from raw inputs, rerun TRIBE v2 inference, or recollect YouTube Analytics reports. Raw media, raw or video/window-level Analytics data, model weights, runtime caches, and private owner records are excluded.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Retention structure and position effect}
+The primary frame retained 194 strict model outputs and 190 videos with non-empty owner-authorized retention reports. Figure~\ref{fig:retention} shows the median and 10th--90th percentile envelope of audience watch ratio over normalized video position. The broad position pattern motivates residualization before feature comparison. The envelope is descriptive; it is not a survival curve and does not identify a causal point of audience departure.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{04_retention_curve_envelope.pdf}
+\caption{Aggregate audience-watch-ratio envelope across normalized video position.}
+\label{fig:retention}
+\end{figure*}
+
+\subsection{What the cortical representation contains}
+Figure~\ref{fig:cortical} projects the duration-weighted, video-level whole-cortex predictions into their first two principal components, a descriptive dimensionality-reduction view \cite{jolliffe2016pca}. The first two components explain 75.4\% of the variance in the current 194-video representation. The plot is a descriptive map of model-derived content patterns; its view-count color scale is contextual and does not establish a view-count mechanism or a viewer group separation. It shows why the analysis retains both region summaries and time-local changes rather than reducing the representation to one composite score.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.82\textwidth]{07_cortical_pca.pdf}
+\caption{Descriptive principal-component view of video-level cortical pattern representations.}
+\label{fig:cortical}
+\end{figure*}
+
+\subsection{Position-adjusted associations}
+Figure~\ref{fig:associations} and Table~\ref{tab:associations} summarize the primary associations. The cingulo-parietal profile had the largest mean association with audience watch ratio ($\rho=0.437$, 95\% video-bootstrap interval $[0.361,0.508]$, 140 videos), followed by the anterior-insular profile ($\rho=0.417$, $[0.339,0.490]$). Cortical pattern change had the largest association with exit intensity ($\rho=0.281$, $[0.195,0.366]$, 109 videos); mean absolute cortical change was similar ($\rho=0.278$, $[0.194,0.360]$). For relative retention, the cingulo-parietal profile reached $\rho=0.347$.
+
+The position-adjusted circular-shift audit produced near-zero null means for the same comparisons: the cingulo-parietal and anterior-insular profiles were approximately $-0.011$ and $-0.009$ for audience watch ratio, while cortical pattern change was approximately $-0.026$ for exit intensity. These values are included as a design check rather than converted into a claim of statistical significance.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.98\textwidth]{01_continuous_associations.pdf}
+\caption{Position-adjusted within-video associations (95\% video-bootstrap intervals).}
+\label{fig:associations}
+\end{figure*}
+
+\begin{table*}[t]
+\caption{Selected position-adjusted associations in the primary frame.}
+\label{tab:associations}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Outcome & Feature & Videos & Mean $\rho$ & 95\% video-bootstrap interval \\
+\midrule
+Audience watch ratio & Cingulo-parietal profile & 140 & 0.437 & [0.361, 0.508] \\
+Audience watch ratio & Anterior-insular profile & 140 & 0.417 & [0.339, 0.490] \\
+Audience watch ratio & Frontal profile & 140 & 0.374 & [0.295, 0.447] \\
+Relative retention performance & Cingulo-parietal profile & 140 & 0.347 & [0.270, 0.420] \\
+Exit intensity & Cortical pattern change & 109 & 0.281 & [0.195, 0.366] \\
+Exit intensity & Mean absolute cortical change & 109 & 0.278 & [0.194, 0.360] \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Incremental prediction is outcome-specific}
+The same-family Ridge comparison is shown in Figure~\ref{fig:prediction} and Table~\ref{tab:prediction}. Adding region means and temporal changes reduced grouped exit-intensity MAE from 0.006237 to 0.005954, a video-equal improvement of 0.000283 with a 95\% bootstrap interval of [0.000124, 0.000442]. The chronological point estimate changed from 0.006476 to 0.006090, but its interval included zero (improvement 0.000386, 95\% interval [-0.000013, 0.000791]). In contrast, grouped audience-watch-ratio MAE changed from 0.092979 to 0.094006, and relative-retention MAE changed from 0.076750 to 0.076372. The result supports an outcome-specific additional-information claim, not a universal improvement claim.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.98\textwidth]{02_predictive_increment.pdf}
+\caption{Same-family Ridge error comparison for metadata, region profiles, and temporal changes; bars are video-equal MAE for grouped evaluation or the chronological check.}
+\label{fig:prediction}
+\end{figure*}
+
+\begin{table*}[t]
+\caption{Five-second window prediction with video-grouped Ridge evaluation.}
+\label{tab:prediction}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabular}{@{}lllrrrr@{}}
+\toprule
+Outcome & Split & Feature set & Videos & MAE & $R^2$ & Pooled Spearman \\
+\midrule
+Audience watch ratio & Grouped & Metadata & 190 & 0.092979 & 0.784 & 0.843 \\
+Audience watch ratio & Grouped & Metadata + profiles & 190 & 0.094338 & 0.781 & 0.849 \\
+Audience watch ratio & Grouped & Metadata + profiles + changes & 190 & 0.094006 & 0.780 & 0.849 \\
+Relative retention & Grouped & Metadata & 190 & 0.076750 & 0.375 & 0.623 \\
+Relative retention & Grouped & Metadata + profiles & 190 & 0.076229 & 0.374 & 0.622 \\
+Relative retention & Grouped & Metadata + profiles + changes & 190 & 0.076372 & 0.371 & 0.620 \\
+Exit intensity & Grouped & Metadata & 190 & 0.006237 & 0.470 & 0.627 \\
+Exit intensity & Grouped & Metadata + profiles & 190 & 0.006017 & 0.522 & 0.617 \\
+Exit intensity & Grouped & Metadata + profiles + changes & 190 & 0.005954 & 0.536 & 0.616 \\
+Exit intensity & Chronological & Metadata & 38 & 0.006476 & 0.302 & 0.602 \\
+Exit intensity & Chronological & Metadata + profiles & 38 & 0.006127 & 0.353 & 0.619 \\
+Exit intensity & Chronological & Metadata + profiles + changes & 38 & 0.006090 & 0.358 & 0.598 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Cross-channel transfer is not established}
+The auxiliary public-view stress test did not support direct cross-channel generalization. Its target was $\log(1+\text{public views})$, with log duration and log upload age as predictors; the enriched model added the six video-level cortical profiles. Each Ridge model and its preprocessing were fit on one channel and transferred unchanged to the other. Table~\ref{tab:transfer} reports the held-out $R^2$ values. These negative values indicate performance below the test-set mean baseline, not negative correlations. This boundary result means the primary-channel relationships should not be treated as a universal law for military video.
+
+\begin{table}[t]
+\caption{Held-out $R^2$ for cross-channel public-view transfer.}
+\label{tab:transfer}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Training $\rightarrow$ test & Metadata & + profiles \\
+\midrule
+YugsaTV $\rightarrow$ KFN & -0.306 & -0.183 \\
+KFN $\rightarrow$ YugsaTV & -0.755 & -1.348 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Pattern-change locations form a review queue}
+The event analysis identified 93 candidate transitions across 85 videos; 92 matched event/control pairs across 84 videos had complete values for the primary display. For each transition, the plotted change is the value in the following five-second window minus the value in the preceding five-second window; the event-minus-control contrast subtracts the matched-control change from the event change. Audience watch ratio changed by -0.150 at event transitions and -0.069 at controls, for an event-minus-control contrast of -0.0811. Exit intensity changed by +0.00505 at events and -0.00207 at controls, for a contrast of +0.00713. Relative retention changed by -0.0215 at events and +0.0279 at controls, for a contrast of -0.0493. Figure~\ref{fig:events} presents the three outcome-specific contrasts with video-bootstrap intervals. The result identifies locations worth editorial inspection; it does not show that a cortical-pattern change caused an audience change.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{05_pattern_change_events.pdf}
+\caption{After-minus-before outcome changes around high cortical-pattern-change locations (95\% video-bootstrap intervals).}
+\label{fig:events}
+\end{figure*}
+
+\section{Discussion}
+\label{sec:discussion}
+
+The results answer the three research questions with different strengths. First, after removing the common position trend, the cingulo-parietal and anterior-insular profiles were associated with aggregate retention summaries, and whole-cortex pattern change was associated with exit intensity. These labels identify the cortical parcels being summarized, not psychological states in viewers. Second, adding the profiles and temporal changes reduced exit-intensity error in the grouped Ridge evaluation. The chronological evaluation showed a similar point-estimate reduction but greater uncertainty: its 95\% interval included zero. The addition did not improve every outcome. Third, the event procedure creates a concrete review queue containing a location, a model-derived change, an aggregate outcome contrast, and a question for a human reviewer.
+
+The workflow has two distinct uses. Before publication, TRIBE-derived content descriptors can nominate high-change segments for human review from the candidate video itself; observed retention and prediction error are not yet available. After publication, the same descriptors can be aligned with observed aggregate platform outcomes to identify segments where content changes and audience behavior warrant joint inspection. This preserves which profile, which time interval, and which outcome contributed to the review cue rather than collapsing them into a composite score; composite-indicator methodology makes the same point analytically, since aggregation choices can hide the drivers of an index \cite{nardo2005composite}. The workflow does not automatically prescribe an edit, certify educational quality, or evaluate an individual service member.
+
+The negative transfer result clarifies the scope of the contribution. A representation that is useful for one channel's temporal review should not be assumed to transfer directly to another channel, paralleling reports that models fitted on one distribution can fail on nominally matched test data \cite{recht2019imagenet}. Both channel analyses used log-transformed public view counts as the target. Because channel context and video composition were not experimentally controlled, the transfer result cannot isolate which channel-specific factors account for the difference. The next study should therefore freeze the analysis procedure before observing a new upload cohort and evaluate prospective generalization rather than repeatedly searching a completed cohort.
+
+Several limitations remain. The primary Analytics period differs by upload date, and four videos had empty retention responses. The six profiles are spatial summaries of model predictions and should not be read as measurements of viewer brain activity or psychological states. Retention is an aggregate platform outcome and cannot establish comprehension, learning, or the reason for an individual departure. The feature screens were not preregistered, and the current work is a retrospective exploratory evaluation; preregistration exists precisely to separate such exploratory analysis from confirmatory claims \cite{nosek2018preregistration}. Even with position matching, a selected pattern-change event may coincide with a scene boundary or an unmeasured production change. Finally, the auxiliary KFN analysis uses public counts rather than owner-authorized retention reports and is therefore a transfer stress test, not an independent validation cohort.
+
+The most informative next test is prospective. Before new uploads, fix the primary outcome, feature groups, fold rule, window rule, null procedure, and reporting table. After publication, use only the frozen procedure to nominate review segments, then ask trained human reviewers whether the nominations correspond to actionable content issues. A controlled editing study would be required to establish whether this review process changes production decisions or improves educational outcomes; such questions belong to the experimental and quasi-experimental design tradition rather than to observational association screens \cite{shadish2002experimental}.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This study established an auditable procedure for joining temporal TRIBE v2 content representations with owner-authorized YouTube audience-retention reports. In the primary YugsaTV frame, cingulo-parietal and anterior-insular profiles showed the largest position-adjusted associations with audience watch ratio, while cortical pattern change was associated with segment-level exit intensity. Adding cortical profiles and temporal changes provided outcome-specific additional information for exploratory exit-intensity evaluation, while cross-channel transfer was not established. The procedure can support human review of time-local editorial candidates before publication and structured comparison with observed platform outcomes after publication. Its findings do not establish editing or educational effects, and the model-derived profiles are not measurements of viewer brains, psychological states, learning, or military readiness.
+
+\clearpage
+\raggedbottom
+\input{appendix}
+
+% Flush all appendix tables and figures before the declarations and references.
+% Keep the short declaration blocks compact instead of stretching inter-section
+% glue to fill the page.
+\clearpage
+\begingroup
+\raggedbottom
+
+\section*{Data Availability}
+The public GitHub repository contains the manuscript source, publication figures, and sanitized aggregate supporting files (\href{https://github.com/hyunjun1121/MECI-Lab-IEEE-Access-reproducibility}{GitHub repository}). The versioned Zenodo archive (DOI: \mbox{\href{https://doi.org/10.5281/zenodo.22916779}{10.5281/zenodo.22916779}}) contains the figure-generation script, configuration, checksums and provenance, aggregate result and audit tables, and publication-ready figures. The script regenerates selected figures from the released aggregates; the archive does not reproduce the full end-to-end analysis, rerun TRIBE v2 inference, or recollect YouTube Analytics reports. Raw media, raw YouTube Analytics responses, video- or window-level Analytics-derived records, model weights, runtime caches, and private owner-authorized records are not redistributed.
+
+\section*{Ethics and Governance}
+No human participants were recruited, assigned, or measured. The analysis used public video records and owner-authorized aggregate channel reports; therefore, institutional research-ethics review was not required.
+
+\section*{Acknowledgment}
+This work was supported by the 2026 research fund of the Korea Military Academy (Hwarangdae Research Institute).
+
+Generative artificial intelligence assistance from OpenAI Codex \cite{openAICodex} was used for language drafting and revision in the Abstract, Introduction, Related Work, Methods, Results, Discussion, Conclusion, and Appendix, and for code and document inspection and LaTeX/figure preparation. It was not used to create or alter source data, owner-authorized Analytics responses, model outputs, or statistical results. The authors independently verified all numerical results, citations, ethical and data-access statements, figures, and final wording and accept responsibility for the content.
+
+\endgroup
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\begin{IEEEbiographynophoto}{Hyunjun Kim}
+Hyunjun Kim is currently pursuing the B.S. degree in computer science at the Korea Advanced Institute of Science and Technology (KAIST), Daejeon, Republic of Korea. He is currently an AI Researcher with the Korea Military Academy (KMA), Seoul, Republic of Korea. His research lies at the intersection of large language models (LLMs), AI safety, and trustworthy AI. His work has investigated LLM red teaming and jailbreak attacks, LLM evaluation, retrieval-augmented generation, and agentic AI systems. He has contributed to research on improving the safety, reliability, and evaluation of advanced AI systems. His current research interests include AI safety and security, adversarial robustness of LLMs, reliable evaluation methodologies, retrieval-augmented generation, and autonomous AI agents. His ORCID is https://orcid.org/0009-0009-5791-9468.
+\end{IEEEbiographynophoto}
+
+\begin{IEEEbiographynophoto}{Jaewoo Lee}
+Jaewoo Lee received the B.S. degree, with majors in biosystems engineering and mechanical engineering and with highest honors, from Seoul National University, Seoul, Republic of Korea, in 2021. He is currently pursuing the M.S. degree in medicine at CHA University, Republic of Korea. From 2020 to 2021, he was a Research Intern with the ORED Laboratory, Seoul National University. Since 2024, he has been a Medical Data Analysis Researcher with the Department of Orthopedic Surgery, CHA University, and since 2025, an AI Researcher with the Korea Military Academy. He received first place and the Minister of National Defense Award at the 2025 Defense AI Competition. His research interests include clinical medicine and artificial intelligence, with a focus on applying AI and data-driven methods to medical research and bridging medicine and AI through interdisciplinary research. His ORCID is https://orcid.org/0009-0009-8988-1513.
+\end{IEEEbiographynophoto}
+
+\begin{IEEEbiographynophoto}{Hyunho Kim}
+Hyunho Kim received the Ph.D. degree from Auburn University, Auburn, AL, USA, in 2009. He is currently an Associate Professor with the Department of Economics, Korea Military Academy, Seoul, Republic of Korea. His research and teaching interests include queueing theory, simulation, optimization, and economics. He can be contacted at kimhyuh@kma.ac.kr. His ORCID is https://orcid.org/0009-0007-6847-6696.
+\end{IEEEbiographynophoto}
+
+\begin{IEEEbiographynophoto}{Hyun-Myung Lim}
+Hyun-Myung Lim received the Ph.D. degree in business administration from Yonsei University, Seoul, Republic of Korea, in 2023. He is currently an Assistant Professor of Business Administration with the Korea Military Academy, Seoul, Republic of Korea, and has served as an officer in the Republic of Korea Army. His research interests include technology adoption and diffusion, artificial intelligence and human-AI interaction, digital transformation, AI-enabled education and decision support, human resource management and organizational behavior, and the application of emerging technologies in military organizations. His recent research focuses on the adoption and diffusion of AI-enabled technologies and their implications for individuals, organizations, and military education. His ORCID is https://orcid.org/0009-0005-0463-1744.
+\end{IEEEbiographynophoto}
+
+\EOD
+\end{document}
