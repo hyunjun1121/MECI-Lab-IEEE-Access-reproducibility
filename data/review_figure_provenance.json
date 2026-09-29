@@ -9,19 +9,19 @@
   "outputs": [
     {
       "path": "figures\\01_continuous_associations.pdf",
-      "sha256": "92410e15719553689d068d3c1aaf128aed3e574ab98e88f5aef579d9b993d701"
+      "sha256": "92c724025dbc88c8065734692807176066991f865adfa7d72359cda6f8a440f8"
     },
     {
       "path": "figures\\02_predictive_increment.pdf",
-      "sha256": "9a871a1edd94c1cab56acc5bdb455167331381e06872e824b14efbb939dd4601"
+      "sha256": "4551d5359130c3be20a46d29647e986e8974d41621ec9252ff2418d6dc79fee6"
     },
     {
       "path": "figures\\05_pattern_change_events.pdf",
-      "sha256": "7af395f5548567ca65c6a0258641d68fec5c55f511871958ba87e5fc94724545"
+      "sha256": "56f19707f63b08041e12c9bc0e08fee112e7a69445020432848017e9bc91c6c5"
     },
     {
       "path": "figures\\03_cross_channel.pdf",
-      "sha256": "639360cff9ee65eb1f0205381de70163f2199f2109fac2fa9fff7ae3794008f3"
+      "sha256": "0fe9e361c12d605aa92bcc8df0d97e0e2389da09bf3080e86e4ed53d321b5314"
     }
   ],
   "interpretation": {

@@ -30,11 +30,11 @@ For adjacent overlap-weighted five-second cortical vectors $\mathbf{x}_{j-1}$ an
 \section{Submission Audit and Robustness Results}
 \label{app:audit}
 
-The submission audit was run from frozen extended-analysis tables without media collection, model loading, OAuth access, or GPU inference. The public release provides aggregate audit summaries rather than the row-level audit manifest or window records. The inference configuration used a four-second, 64-frame model input clip and produced one-second persisted cortical intervals. The analysis used five-second windows with temporal-overlap weighting, seed 33, 500 circular shifts per video-feature-outcome combination, and the video-grouped fold rules described in Section~IV-D. The text-event alignment exclusion threshold was 0.05 unmatched words divided by word records; it was an execution setting, not a preregistered decision.
+The submission audit was run from frozen extended-analysis tables without media collection, model loading, OAuth access, or graphics processing unit (GPU) inference. The public release provides aggregate audit summaries rather than the row-level audit manifest or window records. The inference configuration used a four-second, 64-frame model input clip and produced one-second persisted cortical intervals. The analysis used five-second windows with temporal-overlap weighting, seed 33, 500 circular shifts per video-feature-outcome combination, and the video-grouped fold rules described in Section~IV-D. The text-event alignment exclusion threshold was 0.05 unmatched words divided by word records; it was an execution setting, not a preregistered decision.
 
 The main position-adjusted comparisons were recomputed after applying the same cubic residualization to observed and shifted feature series. Table~\ref{tab:null} reports the key observed and null means. The null values are design diagnostics; they are not reported as a new multiple-testing significance procedure.
 
-\begin{table*}[!b]
+\begin{table*}[!t]
 \caption{Position-adjusted circular-shift audit for selected associations.}
 \label{tab:null}
 \centering
@@ -57,7 +57,7 @@ For the matched event control, 92 transition pairs were available across 84 vide
 
 The fair model audit compared three feature sets under both Ridge and the same fixed HistGradientBoosting model, a histogram-based gradient boosting design in the LightGBM family \cite{ke2017lightgbm}: metadata only, metadata plus six profiles, and metadata plus profiles plus temporal changes. All preprocessing and Ridge alpha selection occurred inside the training fold, and video identity was kept intact across folds. Keeping model selection inside the training fold avoids the error-estimation bias described for cross-validation model selection \cite{varma2006crossvalidation}. Table~\ref{tab:nonlinear} gives the nonlinear exit-intensity comparison; the primary manuscript uses Ridge because its feature-set comparison is easier to audit and explain.
 
-\begin{table*}[!b]
+\begin{table*}[!t]
 \caption{Same-family nonlinear audit for exit intensity.}
 \label{tab:nonlinear}
 \centering
@@ -89,8 +89,8 @@ that the profile mean was lower in high-watch than low-watch windows for this
 particular contrast. The table shows how that contrast changes when temporal
 aggregation varies from three to ten seconds.
 
-\begin{table*}[!b]
-\caption{Window-width sensitivity (H-L: within-video top-minus-bottom-quartile audience-watch-ratio profile mean; 95\% CI: video-bootstrap interval).}
+\begin{table*}[!t]
+\caption{Window-width sensitivity (H-L: within-video top-minus-bottom-quartile audience-watch-ratio profile mean; 95\% confidence interval (CI): video-bootstrap interval).}
 \label{tab:sensitivity}
 \centering
 \renewcommand{\arraystretch}{1.1}
@@ -115,17 +115,12 @@ Frontal & 10 & 140 & -0.023 & [-0.025, -0.020] \\
 \section{Extended Descriptive Analyses}
 \label{app:extended}
 
-The following analyses were completed from the same frozen result set and are retained for transparency rather than promoted to primary claims. Topic summaries describe distributions of content labels and outcomes. Retention-cluster candidates describe curve shape and are not validated audience types. Additional three-, five-, and ten-second sensitivity tables, cortical parcel screens, API-context associations, and window-level out-of-fold predictions were examined during the internal audit but are not included in the public release; the public package contains aggregate summaries and the selected figures reported here.
+Extended analyses were completed from the frozen result set but are not promoted to primary claims. Topic summaries describe content-label and outcome distributions; cluster candidates describe retention-curve shapes, not validated audience types. Additional window-width, parcel, API-context, and window-level prediction screens remain exploratory.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.47\textwidth]{06_topic_summary.pdf}\hfill
-\includegraphics[width=0.47\textwidth]{08_retention_cluster_stability.pdf}
+\includegraphics[width=0.72\textwidth]{06_topic_summary.pdf}\\[0.6em]
+\includegraphics[width=0.72\textwidth]{08_retention_cluster_stability.pdf}
 \caption{Extended descriptive analyses: (a) retention summaries across deterministic content labels and (b) stability checks for candidate retention-curve cluster counts.}
 \label{fig:extended}
 \end{figure*}
-
-\section{Reproducibility Record}
-\label{app:repro}
-
-The primary analysis used four-second, 64-frame visual input clips, one-second persisted cortical intervals, the model's documented five-second backward temporal offset, and five-second analysis windows. Prediction evaluation used five folds grouped by video, so a video's windows never crossed folds; a chronological 80/20 check was also run. Bootstrap seed 33, 2,000 video-bootstrap repetitions, and a Ridge alpha grid of $[0.01,0.1,1,10,100,1000]$ were used. The submission audit added 500 position-adjusted circular shifts per eligible combination and a matched-position event control. Internal analysis manifests record source and derived-file hashes. The public package includes checksums and selected aggregate provenance but excludes internal manifests, video- and window-level records, raw media, private Analytics responses, credentials, model weights, and runtime caches.
