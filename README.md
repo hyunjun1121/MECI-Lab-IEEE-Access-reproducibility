@@ -34,14 +34,15 @@ pdflatex -interaction=nonstopmode -halt-on-error main.tex
 
 ## Data and Code Availability
 
-The Zenodo versioned archive contains the figure-generation script,
-configuration, checksums and provenance, selected aggregate result and audit
-tables, and publication figures:
+The Zenodo version 1.0.1 archive contains the figure-generation script,
+configuration, checksums and provenance, and selected aggregate result and
+audit tables. It contains no pre-rendered figure files; the script regenerates
+four selected figures from the released aggregates, while the publication
+figures are available in this GitHub repository:
 
-https://doi.org/10.5281/zenodo.22916779
+https://doi.org/10.5281/zenodo.23008119
 
-The script regenerates four selected figures from released aggregates. The
-archive does not reproduce the complete analysis from raw inputs, rerun TRIBE
-v2 inference, or recollect owner-authorized YouTube Analytics reports. It
-excludes raw media and Analytics responses, video- or window-level records,
+The archive does not reproduce the complete analysis from raw inputs, rerun
+TRIBE v2 inference, or recollect owner-authorized YouTube Analytics reports.
+It excludes raw media and Analytics responses, video- or window-level records,
 credentials, model weights, runtime caches, and private owner records.
