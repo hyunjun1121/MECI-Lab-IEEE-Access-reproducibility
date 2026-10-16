@@ -1,31 +1,31 @@
-# Temporal Content Analysis with TRIBE v2 and Owner-Authorized YouTube Analytics
+# Temporal Content Analysis with TRIBE v2 and YouTube Analytics
 
-This repository is the reproducibility companion for the IEEE Access manuscript
-`Temporal Content Analysis with TRIBE v2 and Owner-Authorized YouTube Analytics`.
-It contains the manuscript source and PDF, sanitized aggregate data, figures,
-configuration records, and audit outputs used to prepare the article.
+This repository contains the manuscript and a bounded reproducibility package
+for the IEEE Access study. The versioned Zenodo records are linked by the
+concept DOI: https://doi.org/10.5281/zenodo.22890875.
 
 ## Scope
 
-The study analyzes public military-video content at the video and time-window
+The study analyzes public military-video content at video and time-window
 levels. TRIBE v2 outputs are model-derived cortical representations of the
-audiovisual stimulus. They are not measurements of viewer brain activity,
-psychological state, learning, or military readiness.
+audio-visual stimulus, not measurements of viewers' brains, psychological
+states, learning, or military readiness.
 
 ## Contents
 
 - `main.pdf`: compiled manuscript.
 - `main.tex`, `appendix.tex`, `references.bib`: manuscript source.
-- `figures/`: manuscript figures and editable Figure 1 sources.
-- `data/`: sanitized aggregate tables, analysis summaries, configurations,
-  provenance, and submission-audit outputs.
-- `HANDOFF_GUIDE.md`, `REPRODUCIBILITY_NOTES.md`: reproduction boundaries and
-  source-to-result documentation.
-- `CITATION.cff`: citation metadata for this archive.
+- `figures/`: manuscript figures; Figure 1 also has an editable SVG source.
+- `data/`: sanitized metadata, aggregate results, audit tables, and checksums.
+- `build_review_figures.py`: regenerates Figures 5-7 from released aggregate
+  audit tables.
+- `REPRODUCIBILITY_NOTES.md`: exact reproduction scope and commands.
+- `CITATION.cff`: citation metadata.
 
 ## Reproduction
 
-The manuscript can be rebuilt from this directory with:
+Compile the manuscript from this directory with a LaTeX installation that
+includes the bundled IEEE Access class and IEEE bibliography style:
 
 ```text
 pdflatex -interaction=nonstopmode -halt-on-error main.tex
@@ -34,24 +34,21 @@ pdflatex -interaction=nonstopmode -halt-on-error main.tex
 pdflatex -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-The package is intended to reproduce the manuscript and its aggregate displays;
-it does not rerun TRIBE v2 inference or YouTube collection.
+With Python 3, NumPy, pandas, and Matplotlib installed, regenerate Figures
+5-7 from the sanitized aggregate audit tables:
 
-## Data-sharing boundary
+```text
+python build_review_figures.py
+```
 
-The archive contains sanitized public metadata, derived aggregate results,
-figures, configuration, manifests, and checksums. It intentionally excludes
-raw video and audio, raw owner-authorized YouTube Analytics responses, OAuth
-credentials, access tokens, model weights, runtime caches, and private records.
-The public Zenodo DOI for the versioned release will be added to the manuscript
-Data Availability statement after the GitHub release is archived.
+Other analysis tables and figures are included as released artifacts. This
+package does not rerun TRIBE v2 inference, collect YouTube metadata, or
+re-query owner-authorized YouTube Analytics reports.
 
-## Citation
+## Data boundary
 
-Please cite the versioned Zenodo record after its DOI is assigned. The author
-order and affiliation metadata are provided in `CITATION.cff`.
-
-## Contact
-
-Corresponding author: Hyun-Myung Lim, Korea Military Academy,
-`onlybyhim@kma.ac.kr`.
+The archive excludes raw video and audio, raw YouTube Analytics responses,
+OAuth credentials and access tokens, model weights, runtime caches, and other
+private owner-authorized records. The public release is intended for
+manuscript review and the reproduction activities stated above, not as a
+complete end-to-end data-collection or model-inference environment.

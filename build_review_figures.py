@@ -132,13 +132,13 @@ def main() -> None:
     FIGURES.mkdir(parents=True, exist_ok=True)
     outputs = [prediction_figure(), event_figure(), transfer_figure()]
     provenance = {
-        "generator": "paper/IEEE_access/build_review_figures.py",
+        "generator": "build_review_figures.py",
         "inputs": [
             "data/submission_audit/fair_model_metrics.csv",
             "data/submission_audit/matched_pattern_change_control_summary.csv",
             "data/cross_channel_transfer.csv",
         ],
-        "outputs": [{"path": str(path.relative_to(ROOT)), "sha256": sha256(path)} for path in outputs],
+        "outputs": [{"path": path.relative_to(ROOT).as_posix(), "sha256": sha256(path)} for path in outputs],
         "interpretation": {
             "prediction": "same-family Ridge feature-set comparison; lower MAE is better",
             "events": "event, matched control, and event-minus-control descriptive contrasts",

@@ -3,30 +3,30 @@
 \section{Feature and Outcome Definitions}
 \label{app:definitions}
 
-Table~\ref{tab:profiles} defines the six region-based profiles used in the manuscript. Each profile is an unweighted mean of predicted cortical values over the listed parcel masks from the anatomical cortical parcellation used for spatial aggregation \cite{destrieux2010parcellation}. The labels are spatial shorthand for reproducible aggregation and are not claims about a viewer's psychological state.
+Table~\ref{tab:profiles} maps the six reader-facing anatomical names to their parcel masks and legacy analysis-field identifiers. The masks form a compact descriptive set spanning frontal, insular, cingulo-parietal, posterior cingulate, visual, and auditory cortex; they are not validated psychological scales and were not selected from the retention associations. Each profile is an unweighted mean of predicted cortical values over the listed parcels in the anatomical cortical atlas \cite{destrieux2010parcellation}. The code identifiers are retained only to make the published tables and files traceable.
 
-\begin{table*}[!b]
-\caption{Region-based content profiles used in the primary analysis.}
+\begin{table*}[!t]
+\caption{Anatomical cortical profiles and analysis-field crosswalk.}
 \label{tab:profiles}
 \centering
-\scriptsize
-\begin{tabularx}{\textwidth}{@{}lllX@{}}
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabularx}{\textwidth}{@{}lXl@{}}
 \toprule
-Profile & Parcel summary & Output role & Interpretation boundary \\
+Reader-facing profile & Parcel summary & Analysis field \\
 \midrule
-Reward & Frontomarginal and rectus gyri & Region-based cortical content descriptor & Does not establish reward or positive affect in a viewer. \\
-Aversion & Short insular gyrus and anterior circular insular sulcus & Region-based cortical content descriptor & Does not establish avoidance, discomfort, or rejection. \\
-Social value & Anterior-mid cingulate and angular parietal parcels & Region-based cortical content descriptor & Does not establish social valuation or a social judgment. \\
-Engagement & Dorsal and ventral posterior cingulate parcels & Region-based cortical content descriptor & Does not establish attention, immersion, or viewing persistence. \\
-Visual processing & Calcarine, cuneus, and medial occipito-temporal parcels & Region-based cortical content descriptor & Describes a model summary of visual stimulus content. \\
-Auditory processing & Planum temporale and transverse temporal parcels & Region-based cortical content descriptor & Describes a model summary of auditory stimulus content. \\
+Frontal & Frontomarginal and rectus gyri & \texttt{reward} \\
+Anterior insular & Short insular gyrus and anterior circular insular sulcus & \texttt{aversion} \\
+Cingulo-parietal & Anterior-mid cingulate and angular parietal parcels & \texttt{social\_value} \\
+Posterior cingulate & Dorsal and ventral posterior cingulate parcels & \texttt{engagement} \\
+Visual cortex & Calcarine, cuneus, and medial occipito-temporal parcels & \texttt{visual\_processing} \\
+Auditory cortex & Planum temporale and transverse temporal parcels & \texttt{auditory\_processing} \\
 \bottomrule
 \end{tabularx}
 \end{table*}
-The whole-cortex pattern-change descriptor is one minus the correlation between adjacent cortical vectors after within-vector centering. The persisted TRIBE outputs are one-second intervals; for the primary analysis, these are overlap-weighted into adjacent five-second windows before the pattern-change calculation. The first comparison and any constant-vector comparison are undefined and omitted. No composite score is formed by summing the six profiles.
 
-% Flush Appendix A's wide table before beginning the audit appendix.
-\clearpage
+For adjacent overlap-weighted five-second cortical vectors $\mathbf{x}_{j-1}$ and $\mathbf{x}_j$, whole-cortex pattern change is $P_j=1-r_j$, where $r_j$ is their Pearson correlation across the 20,484 corresponding vertices after centering each vector. Mean absolute cortical change is $M_j=\frac{1}{20{,}484}\sum_{v=1}^{20{,}484}|x_{j,v}-x_{j-1,v}|$. These descriptors are calculated from the persisted one-second outputs; the first comparison and any constant-vector pattern correlation are undefined and omitted. The six profile values are not summed into a composite score.
+
 \section{Submission Audit and Robustness Results}
 \label{app:audit}
 
@@ -38,16 +38,17 @@ The main position-adjusted comparisons were recomputed after applying the same c
 \caption{Position-adjusted circular-shift audit for selected associations.}
 \label{tab:null}
 \centering
-\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
 \begin{tabular}{@{}llrrrr@{}}
 \toprule
 Outcome & Feature & Videos & Observed mean $\rho$ & Null mean $\rho$ & Observed minus null \\
 \midrule
-Audience watch ratio & Social value & 140 & 0.437 & -0.011 & 0.448 \\
-Audience watch ratio & Aversion & 140 & 0.417 & -0.009 & 0.426 \\
-Audience watch ratio & Reward & 140 & 0.374 & -0.018 & 0.392 \\
-Exit intensity & Pattern change & 109 & 0.281 & -0.026 & 0.307 \\
-Exit intensity & Amplitude change & 109 & 0.278 & -0.016 & 0.293 \\
+Audience watch ratio & Cingulo-parietal profile & 140 & 0.437 & -0.011 & 0.448 \\
+Audience watch ratio & Anterior-insular profile & 140 & 0.417 & -0.009 & 0.426 \\
+Audience watch ratio & Frontal profile & 140 & 0.374 & -0.018 & 0.392 \\
+Exit intensity & Cortical pattern change & 109 & 0.281 & -0.026 & 0.307 \\
+Exit intensity & Mean absolute cortical change & 109 & 0.278 & -0.016 & 0.293 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -60,7 +61,8 @@ The fair model audit compared three feature sets under both Ridge and the same f
 \caption{Same-family nonlinear audit for exit intensity.}
 \label{tab:nonlinear}
 \centering
-\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
 \begin{tabular}{@{}lllrrr@{}}
 \toprule
 Split & Feature set & Videos & MAE & $R^2$ & Pooled Spearman \\
@@ -76,34 +78,36 @@ Chronological & Metadata + profiles + changes & 38 & 0.006014 & 0.420 & 0.611 \\
 The stored window-sensitivity analysis changes the width used to form the
 within-video high-versus-low outcome contrast while retaining the common
 140-video cohort. Table~\ref{tab:sensitivity} reports the contrast for the
-three profiles that are most visible in the primary audience-watch-ratio
-association display. Each value is the profile mean in the top-quartile
-audience-watch-ratio windows minus the profile mean in the bottom-quartile
-windows, computed within each video and then summarized across videos. A
-negative value therefore means that the model-derived profile value was lower
-in the high-watch windows under this descriptive comparison; it does not
-indicate a causal effect or a viewer state. Their purpose is to show how the
-profile ordering behaves when the temporal aggregation changes from three to
-ten seconds.
+three profiles shown in the primary audience-watch-ratio association display.
+Each value is the profile mean in the top-quartile audience-watch-ratio
+windows minus the profile mean in the bottom-quartile windows, computed within
+each video and then summarized across videos. This is a descriptive
+high-versus-low window contrast, not the cubic-position-adjusted within-video
+rank correlation shown in Fig.~\ref{fig:associations}; the two quantities use
+different comparisons and need not have the same sign. A negative value means
+that the profile mean was lower in high-watch than low-watch windows for this
+particular contrast. The table shows how that contrast changes when temporal
+aggregation varies from three to ten seconds.
 
 \begin{table*}[!b]
-\caption{Window-width sensitivity for selected audience-watch-ratio contrasts.}
+\caption{Window-width sensitivity (H-L: within-video top-minus-bottom-quartile audience-watch-ratio profile mean; 95\% CI: video-bootstrap interval).}
 \label{tab:sensitivity}
 \centering
-\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
 \begin{tabular}{@{}llrrr@{}}
 \toprule
-Feature & Window width (s) & Videos & High-watch minus low-watch profile mean & 95\% video-bootstrap interval \\
+Profile & Width (s) & $n$ & H-L mean & 95\% CI \\
 \midrule
-Social value & 3  & 140 & -0.128 & [-0.136, -0.119] \\
-Social value & 5  & 140 & -0.111 & [-0.120, -0.103] \\
-Social value & 10 & 140 & -0.086 & [-0.093, -0.078] \\
-Aversion & 3  & 140 & -0.105 & [-0.114, -0.098] \\
-Aversion & 5  & 140 & -0.089 & [-0.097, -0.081] \\
-Aversion & 10 & 140 & -0.063 & [-0.070, -0.056] \\
-Reward & 3  & 140 & -0.031 & [-0.034, -0.029] \\
-Reward & 5  & 140 & -0.029 & [-0.031, -0.026] \\
-Reward & 10 & 140 & -0.023 & [-0.025, -0.020] \\
+Cingulo-parietal & 3  & 140 & -0.128 & [-0.136, -0.119] \\
+Cingulo-parietal & 5  & 140 & -0.111 & [-0.120, -0.103] \\
+Cingulo-parietal & 10 & 140 & -0.086 & [-0.093, -0.078] \\
+Anterior insular & 3  & 140 & -0.105 & [-0.114, -0.098] \\
+Anterior insular & 5  & 140 & -0.089 & [-0.097, -0.081] \\
+Anterior insular & 10 & 140 & -0.063 & [-0.070, -0.056] \\
+Frontal & 3  & 140 & -0.031 & [-0.034, -0.029] \\
+Frontal & 5  & 140 & -0.029 & [-0.031, -0.026] \\
+Frontal & 10 & 140 & -0.023 & [-0.025, -0.020] \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -111,7 +115,7 @@ Reward & 10 & 140 & -0.023 & [-0.025, -0.020] \\
 \section{Extended Descriptive Analyses}
 \label{app:extended}
 
-The following analyses were completed from the same frozen result set and are retained for transparency rather than promoted to primary claims. Topic summaries describe distributions of content labels and outcomes. Retention-cluster candidates describe curve shape and are not validated audience types. The full three-, five-, and ten-second window sensitivity tables, all cortical parcel screens, API-context associations, and video-level out-of-fold predictions remain in the aggregate audit and extended-analysis directories.
+The following analyses were completed from the same frozen result set and are retained for transparency rather than promoted to primary claims. Topic summaries describe distributions of content labels and outcomes. Retention-cluster candidates describe curve shape and are not validated audience types. The full three-, five-, and ten-second window sensitivity tables, all cortical parcel screens, API-context associations, and window-level out-of-fold predictions remain in the aggregate audit and extended-analysis directories.
 
 \begin{figure*}[!t]
 \centering
@@ -124,4 +128,4 @@ The following analyses were completed from the same frozen result set and are re
 \section{Reproducibility Record}
 \label{app:repro}
 
-The primary analysis used four-second, 64-frame model input clips, one-second persisted cortical intervals, five-second analysis windows, bootstrap seed 33, 2,000 video-bootstrap repetitions, grouped five-fold evaluation, a chronological 80/20 check, and a Ridge alpha grid of $[0.01,0.1,1,10,100,1000]$. The submission audit added 500 position-adjusted circular shifts per eligible combination and a matched-position event control. Source and derived-file hashes are recorded in the original extended-analysis \texttt{MANIFEST.json}, the submission-audit \texttt{audit\_manifest.json}, and the paper-package figure provenance. The public package excludes raw media, private Analytics responses, credentials, model weights, and runtime caches.
+The primary analysis used four-second, 64-frame visual input clips, one-second persisted cortical intervals, the model's documented five-second backward temporal offset, and five-second analysis windows. Prediction evaluation used five folds grouped by video, so a video's windows never crossed folds; a chronological 80/20 check was also run. Bootstrap seed 33, 2,000 video-bootstrap repetitions, and a Ridge alpha grid of $[0.01,0.1,1,10,100,1000]$ were used. The submission audit added 500 position-adjusted circular shifts per eligible combination and a matched-position event control. Source and derived-file hashes are recorded in the original extended-analysis \texttt{MANIFEST.json}, the submission-audit \texttt{audit\_manifest.json}, and the paper-package figure provenance. The public package excludes raw media, private Analytics responses, credentials, model weights, and runtime caches.
