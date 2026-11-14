@@ -3,7 +3,7 @@
 \section{Feature and Outcome Definitions}
 \label{app:definitions}
 
-Table~\ref{tab:profiles} maps the six reader-facing anatomical names to their parcel masks and legacy analysis-field identifiers. The masks form a compact descriptive set spanning frontal, insular, cingulo-parietal, posterior cingulate, visual, and auditory cortex; they are not validated psychological scales and were not selected from the retention associations. Each profile is an unweighted mean of predicted cortical values over the listed parcels in the anatomical cortical atlas \cite{destrieux2010parcellation}. The code identifiers are retained only to make the published tables and files traceable.
+\mbox{Table~\ref{tab:profiles}} maps the six reader-facing anatomical names to their parcel masks and legacy analysis-field identifiers. The masks form a compact descriptive set spanning frontal, insular, cingulo-parietal, posterior cingulate, visual, and auditory cortex; they are not validated psychological scales and were not selected from the retention associations. \rev{\mbox{Section~IV-A} of the main text describes the functional correspondence of these territories and its limits; \mbox{Table~\ref{tab:crosswalk}} reports the anatomical-consistency check. Vertex counts and areas are bilateral totals on the fsaverage5 surface.} Each profile is an unweighted mean of predicted cortical values over the listed parcels in the anatomical cortical atlas \cite{destrieux2010parcellation}. The code identifiers are retained only to make the published tables and files traceable.
 
 \begin{table*}[!t]
 \caption{Anatomical cortical profiles and analysis-field crosswalk.}
@@ -11,16 +11,40 @@ Table~\ref{tab:profiles} maps the six reader-facing anatomical names to their pa
 \centering
 \renewcommand{\arraystretch}{1.1}
 \tablebodyfont
-\begin{tabularx}{\textwidth}{@{}lXl@{}}
+\begin{tabularx}{\textwidth}{@{}lXrrl@{}}
 \toprule
-Reader-facing profile & Parcel summary & Analysis field \\
+Reader-facing profile & Parcel summary & Vertices & Area (mm$^2$) & Analysis field \\
 \midrule
-Frontal & Frontomarginal and rectus gyri & \texttt{reward} \\
-Anterior insular & Short insular gyrus and anterior circular insular sulcus & \texttt{aversion} \\
-Cingulo-parietal & Anterior-mid cingulate and angular parietal parcels & \texttt{social\_value} \\
-Posterior cingulate & Dorsal and ventral posterior cingulate parcels & \texttt{engagement} \\
-Visual cortex & Calcarine, cuneus, and medial occipito-temporal parcels & \texttt{visual\_processing} \\
-Auditory cortex & Planum temporale and transverse temporal parcels & \texttt{auditory\_processing} \\
+Frontal & Frontomarginal and rectus gyri & 249 & 1,423 & \texttt{reward} \\
+Anterior insular & Short insular gyrus and anterior circular insular sulcus & 214 & 1,076 & \texttt{aversion} \\
+Cingulo-parietal & Anterior-mid cingulate and angular parietal parcels & 672 & 2,701 & \texttt{social\_value} \\
+Posterior cingulate & Dorsal and ventral posterior cingulate parcels & 183 & 703 & \texttt{engagement} \\
+Visual cortex & Calcarine, cuneus, and medial occipito-temporal parcels & 859 & 4,522 & \texttt{visual\_processing} \\
+Auditory cortex & Planum temporale and transverse temporal parcels & 232 & 1,154 & \texttt{auditory\_processing} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\rev{\textit{Anatomical-consistency check.} \mbox{Table~\ref{tab:crosswalk}} maps literature peaks onto the profiles. Montreal Neurological Institute (MNI152) peaks were transformed to the fsaverage (MNI305) coordinate system with FreeSurfer's published affine \mbox{\cite{fischl2012freesurfer}}. The Talairach peak was first converted to MNI152 with the Lancaster transform for coordinates from software other than Statistical Parametric Mapping \mbox{\cite{lancaster2007bias}}. Each peak was then assigned to the nearest vertex of the fsaverage5 mid-thickness surface. A peak is \emph{inside} when both the nearest-vertex surface label and the volumetric Destrieux label belong to the profile, \emph{outside} when neither does, and \emph{uncertain} otherwise. The distribution files of the volumetric atlas disagree on its template space, and a geometric test could not resolve the conflict. Volume labels were therefore read under both MNI152 and MNI305 assumptions, and any disagreement counts as uncertain. Distance is measured from the peak to the nearest profile vertex. Affine mapping with nearest-vertex assignment can be off by several millimeters \mbox{\cite{wu2018accurate}}. Membership and distance describe anatomical consistency only. A peak inside a profile does not validate the profile as a measure of that function, and a peak outside a profile does not show that the territory is functionally unrelated. A peak outside or far from a profile does not change the profile; the corresponding study is cited as functional context rather than as direct support.}
+
+\begin{table*}[!t]
+\caption{Anatomical consistency between cited functional peaks and the cortical profiles.}
+\label{tab:crosswalk}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabularx}{\textwidth}{@{}llll>{\raggedright\arraybackslash}Xlr@{}}
+\toprule
+Profile & Peak & Source (type) & Reported coordinates & Nearest surface label & Membership & Distance (mm) \\
+\midrule
+Frontal & Ventromedial prefrontal & \cite{bartra2013valuation} (meta-analysis) & $(2, 46, -8)$ MNI & R anterior cingulate & Outside & 8.4 \\
+Anterior insular & Right frontoinsula & \cite{seeley2007salience} (single study) & $(38, 26, -10)$ MNI & R orbital gyri & Outside & 4.7 \\
+Anterior insular & Left frontoinsula & \cite{seeley2007salience} (single study) & $(-32, 24, -10)$ MNI & L anterior circular insular sulcus & Inside & 1.4 \\
+Cingulo-parietal & Left temporo-parietal junction & \cite{saxe2003people} (single study) & $(-54, -60, 21)$ MNI & L angular gyrus; volume unlabeled & Uncertain & 5.5 \\
+Cingulo-parietal & Right temporo-parietal junction & \cite{saxe2003people} (single study) & $(51, -54, 27)$ MNI & R superior temporal sulcus & Outside & 5.1 \\
+Posterior cingulate & Posterior cingulate/precuneus & \cite{raichle2001default} (single study) & $(-5, -49, 40)$ Talairach & L subparietal sulcus; volume precuneus or unlabeled & Uncertain & 11.9 \\
+\midrule
+\multicolumn{7}{@{}p{0.96\textwidth}@{}}{Visual \cite{wandell2007visual} and auditory \cite{griffiths2002planum} profiles: anatomical-definition correspondence (calcarine sulcus; planum temporale and transverse temporal gyrus); no peak was mapped. Anterior-mid cingulate part of the cingulo-parietal profile: partial correspondence, not covered by the cited studies.} \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -30,9 +54,9 @@ For adjacent overlap-weighted five-second cortical vectors $\mathbf{x}_{j-1}$ an
 \section{Submission Audit and Robustness Results}
 \label{app:audit}
 
-The submission audit was run from frozen extended-analysis tables without media collection, model loading, OAuth access, or graphics processing unit (GPU) inference. The public release provides aggregate audit summaries rather than the row-level audit manifest or window records. The inference configuration used a four-second, 64-frame model input clip and produced one-second persisted cortical intervals. The analysis used five-second windows with temporal-overlap weighting, seed 33, 500 circular shifts per video-feature-outcome combination, and the video-grouped fold rules described in Section~IV-D. The text-event alignment exclusion threshold was 0.05 unmatched words divided by word records; it was an execution setting, not a preregistered decision.
+The submission audit was run from frozen extended-analysis tables without media collection, model loading, \rev{Open Authorization (OAuth)} access, or graphics processing unit (GPU) inference. The public release provides aggregate audit summaries rather than the row-level audit manifest or window records. The inference configuration used a four-second, 64-frame model input clip and produced one-second persisted cortical intervals. The analysis used five-second windows with temporal-overlap weighting, seed 33, 500 circular shifts per video-feature-outcome combination, and the video-grouped fold rules described in Section~IV-D. The text-event alignment exclusion threshold was 0.05 unmatched words divided by word records; it was an execution setting, not a preregistered decision.
 
-The main position-adjusted comparisons were recomputed after applying the same cubic residualization to observed and shifted feature series. Table~\ref{tab:null} reports the key observed and null means. The null values are design diagnostics; they are not reported as a new multiple-testing significance procedure.
+The main position-adjusted comparisons were recomputed after applying the same cubic residualization to observed and shifted feature series. Table~\ref{tab:null} reports the key observed and null means. The null values are design diagnostics; they are not reported as a new multiple-testing significance procedure. \rev{During this revision, the five-second position-adjusted associations of the six profiles with the three outcomes (18 combinations) were recomputed from the stored window records and matched the frozen table, with differences below $10^{-9}$. The window-level Ridge predictions of the metadata and metadata-plus-profiles models (grouped and chronological splits, three outcomes) were likewise recomputed with the stored regularization strengths and matched the stored predictions row by row.}
 
 \begin{table*}[!t]
 \caption{Position-adjusted circular-shift audit for selected associations.}
@@ -55,7 +79,9 @@ Exit intensity & Mean absolute cortical change & 109 & 0.278 & -0.016 & 0.293 \\
 
 For the matched event control, 92 transition pairs were available across 84 videos. The event-minus-control arithmetic contrasts were -0.0811 for audience watch ratio, +0.00713 for exit intensity, and -0.0493 for relative retention performance. The mean normalized-position distance between event and control transitions was 0.192. These values support retaining the event display as a review-candidate analysis while keeping its interpretation descriptive; they are not causal difference-in-differences estimates \cite{bertrand2004did}.
 
-The fair model audit compared three feature sets under both Ridge and the same fixed HistGradientBoosting model, a histogram-based gradient boosting design in the LightGBM family \cite{ke2017lightgbm}: metadata only, metadata plus six profiles, and metadata plus profiles plus temporal changes. All preprocessing and Ridge alpha selection occurred inside the training fold, and video identity was kept intact across folds. Keeping model selection inside the training fold avoids the error-estimation bias described for cross-validation model selection \cite{varma2006crossvalidation}. Table~\ref{tab:nonlinear} gives the nonlinear exit-intensity comparison; the primary manuscript uses Ridge because its feature-set comparison is easier to audit and explain.
+The fair model audit compared three feature sets under both Ridge and the same fixed HistGradientBoosting model, a histogram-based gradient boosting design in the LightGBM family \cite{ke2017lightgbm}: metadata only, metadata plus six profiles, and metadata plus profiles plus temporal changes. All preprocessing and Ridge alpha selection occurred inside the training fold, and video identity was kept intact across folds. Keeping model selection inside the training fold avoids the error-estimation bias described for cross-validation model selection \cite{varma2006crossvalidation}. Table~\ref{tab:nonlinear} gives the nonlinear exit-intensity comparison; the primary manuscript uses Ridge because its feature-set comparison is easier to audit and explain. \rev{\mbox{Section~V-D} reports the paired video-bootstrap intervals for these comparisons, which include zero, and the HistGradientBoosting results for the other two outcomes.}
+
+\rev{\textit{Window weighting of the prediction metrics (post hoc).} MAE and $R^2$ in \mbox{Tables~\ref{tab:prediction}} and \mbox{\ref{tab:nonlinear}} weight each window by the inverse of its video's window count, so each video contributes equally; the pooled Spearman correlation is unweighted. In the audit table released with Zenodo version 1.0.2, the columns labelled \texttt{mae\_window\_weighted} and \texttt{r2\_window\_weighted} contain these video-equal values; version 1.0.3 corrects the labels and adds window-weighted values. During the final revision, after the results above were known, we recomputed all 24 paired comparisons from the stored out-of-fold predictions with every window weighted equally. This check was not pre-specified. The stored video-equal values were reproduced exactly. Three comparisons changed from an interval excluding zero to one including zero: HistGradientBoosting relative retention with profiles (video-equal 0.001358, [0.000087, 0.002685]; window-weighted 0.001137, [$-0.000090$, 0.002455]) and with profiles and changes (0.001183, [0.000012, 0.002430]; 0.000878, [$-0.000289$, 0.002094]), and chronological Ridge exit intensity with profiles (0.000349, [0.000018, 0.000701]; 0.000288, [$-0.000072$, 0.000670]). No comparison changed in the other direction. The grouped Ridge exit-intensity improvement with profiles and changes stayed above zero (0.000253, [0.000051, 0.000455]), as did the grouped HistGradientBoosting audience-watch-ratio improvement with profiles (0.001342, [0.000153, 0.002554]).}
 
 \begin{table*}[!t]
 \caption{Same-family nonlinear audit for exit intensity.}
@@ -84,7 +110,7 @@ windows minus the profile mean in the bottom-quartile windows, computed within
 each video and then summarized across videos. This is a descriptive
 high-versus-low window contrast, not the cubic-position-adjusted within-video
 rank correlation shown in Fig.~\ref{fig:associations}; the two quantities use
-different comparisons and need not have the same sign. A negative value means
+different comparisons and need not have the same sign. \rev{The contrast is not adjusted for position, so it also reflects where in a video the high- and low-watch windows fall. The stored table includes every video with at least four valid windows (190, 187, and 140 videos at three, five, and ten seconds); the common cohort is the 140 videos available at all three widths, which are the videos of the five-second correlation cohort.} A negative value means
 that the profile mean was lower in high-watch than low-watch windows for this
 particular contrast. The table shows how that contrast changes when temporal
 aggregation varies from three to ten seconds.
@@ -112,15 +138,98 @@ Frontal & 10 & 140 & -0.023 & [-0.025, -0.020] \\
 \end{tabular}
 \end{table*}
 
+\rev{A diagnostic recomputation from the per-video tables describes conditions associated with the negative cross-channel transfer reported in \mbox{Table~\ref{tab:transfer}} of the main text; it does not establish their cause. The procedure reimplements the documented transfer pipeline: median imputation, standardization, and Ridge alpha selection, all fit on the source channel only. It reproduces three of the four held-out $R^2$ values within 0.02. For the primary$\rightarrow$KFN metadata model it gives $R^2=-0.20$ and MAE 1.23, against the frozen $-0.31$ and 1.30, and the rank correlation of the enriched primary$\rightarrow$KFN model also differs (0.13 against 0.07). The regularization strengths selected in the original run were not recorded. Refitting each model with the strength fixed at each value of the recorded grid reproduced no frozen row exactly. The closest grid values (100, 10, 10, and 0.01 for the four models) left differences of at most 0.014 in $R^2$, MAE, or rank correlation, against up to 0.105 under the cross-validated selection of the recomputation. With a strength of 100, the primary$\rightarrow$KFN metadata model gives $R^2=-0.307$ and MAE 1.296. The larger differences thus vary with the regularization strength, and the source of the remaining differences has not been identified. \mbox{Table~\ref{tab:transfer}} reports the values of the original run. \mbox{Table~\ref{tab:transferdiag}} reports the target-scale floor, the in-distribution control, and the standardized feature shifts from the recomputation; the target-scale floor and the feature shifts do not involve the regularization strength. The code is provided as supplementary material.}
+
+\begin{table*}[!t]
+\caption{Cross-channel transfer diagnostics computed from frozen per-video aggregates.}
+\label{tab:transferdiag}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Quantity & Primary channel & KFN \\
+\midrule
+Mean $\log(1+\text{public views})$ at the frozen snapshot & 9.27 & 9.93 \\
+Constant source-mean predictor $R^2$ (evaluated on this channel) & $-0.34$ & $-0.17$ \\
+5-fold in-channel held-out $R^2$ (metadata + profiles) & $0.144 \pm 0.163$ & $0.239 \pm 0.030$ \\
+\midrule
+\multicolumn{3}{@{}p{0.92\textwidth}@{}}{Standardized mean difference, KFN minus primary: visual profile $-1.13$; anterior-insular $-1.01$; auditory $+0.99$; posterior-cingulate $-0.70$; frontal $-0.57$; cingulo-parietal $+0.15$; log duration $+0.45$; log upload age $+0.05$.} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\rev{\textit{Spatial-control analysis (post hoc).} The analysis plan, including the statistic, acceptance rule, test families, and null models, was fixed in a hash-locked document before any rotated region was scored. The plan allowed only bug fixes after locking. Its amendment log records five code changes described as bug fixes or additions that did not alter a rule, an aborted first spin run (stopped by a memory error before any family result was printed; partial files deleted), and one rule change, made 43 minutes after locking and before any literature peak was mapped: the coordinate-transform tolerance, which the plan had not fixed, was set to the rounding bound of the published matrix (0.0033~mm; a discarded first run had used 0.001~mm), and a default MNI152 assignment of the volume atlas was replaced by a rule that leaves the space unresolved unless one hypothesis is better by at least 0.05 on both agreement measures, marking disagreeing labels uncertain. This change affects only the anatomical-consistency check (\mbox{Table~\ref{tab:crosswalk}}), not the spin tests. Candidate rotations were drawn uniformly from the rotation group with seed 33. For a rotation $R$ applied to the left hemisphere, the right hemisphere used the mirrored rotation $FRF$, where $F$ reverses the left--right axis. Each target vertex took the mask value of the source vertex nearest to its inverse-rotated position on the same hemisphere. Rotated vertices on the medial wall were excluded, and rotations retaining fewer than 80\% of the original vertex count were rejected. Every rotated region was scored with the observed profile's statistic on the same cohort. The one-sided $p_{\text{spin}}$ is $(1+\#\{\text{null}\ge\text{observed}\})/(N+1)$. Before any association was computed, each profile was graded on the median vertex ratio, area ratio, spatial spread, and connected-component count of its rotated regions; all six met all four criteria. Rotating a mask forward and back reproduced it with a median Dice coefficient of 0.978--0.995, so nearest-vertex reassignment introduced little distortion. \mbox{Table~\ref{tab:spin}} gives the primary result and \mbox{Table~\ref{tab:spinsens}} the sensitivity families.}
+
+\begin{table*}[!t]
+\caption{Spatial-control comparison of the six profiles for audience watch ratio (five-second windows, 140 videos, 10,000 rotated regions per profile retaining at least 80\% of vertices).}
+\label{tab:spin}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrlllrrr@{}}
+\toprule
+Profile & Mean $\rho$ & 95\% CI & Rotated median [5--95\%] & Percentile & $p_{\text{spin}}$ & Holm $p$ & Rejected (\%) \\
+\midrule
+Frontal & 0.374 & [0.295, 0.447] & 0.296 [$-$0.042, 0.424] & 74.4 & 0.257 & 1.000 & 15.6 \\
+Anterior insular & 0.417 & [0.339, 0.490] & 0.286 [$-$0.064, 0.421] & 93.8 & 0.062 & 0.311 & 14.1 \\
+Cingulo-parietal & 0.437 & [0.361, 0.508] & 0.271 [0.038, 0.415] & 98.8 & 0.012 & 0.072 & 18.8 \\
+Posterior cingulate & 0.214 & [0.135, 0.285] & 0.301 [$-$0.030, 0.425] & 34.7 & 0.653 & 1.000 & 15.0 \\
+Visual & 0.209 & [0.132, 0.286] & 0.316 [$-$0.011, 0.434] & 32.8 & 0.672 & 1.000 & 15.7 \\
+Auditory & 0.081 & [$-$0.009, 0.172] & 0.301 [$-$0.029, 0.427] & 17.8 & 0.822 & 1.000 & 16.2 \\
+\midrule
+\multicolumn{8}{@{}p{\textwidth}@{}}{CI: video-bootstrap interval (2,000 resamples). Percentile: share of rotated regions with a smaller statistic. Rejected: candidate rotations discarded for retaining fewer than 80\% of vertices. All six profiles met the four geometric comparability criteria.} \\
+\bottomrule
+\end{tabular*}
+\end{table*}
+
+\begin{table*}[!t]
+\caption{Sensitivity of the spatial-control comparison: $p_{\text{spin}}$ (Holm-corrected $p$ across the six profiles within each family).}
+\label{tab:spinsens}
+\centering
+\renewcommand{\arraystretch}{1.1}
+\tablebodyfont
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+\toprule
+Profile & (a) $\geq$50\% & (b) None & (c) Dice & (d) Parcel & (e) Random & (f) Common & (g) 3 s & (h) Rel. ret. & (i) Exit \\
+\midrule
+Frontal & 0.248 (0.993) & 0.237 (0.948) & 0.255 (1.000) & 0.253 (1.000) & 0.161 (0.643) & 0.255 (1.000) & 0.139 (0.556) & 0.372 (1.000) & 0.623 (0.754) \\
+Anterior insular & 0.061 (0.303) & 0.059 (0.293) & 0.052 (0.261) & 0.088 (0.440) & 0.047 (0.237) & 0.298 (1.000) & 0.039 (0.236) & 0.057 (0.285) & 0.088 (0.352) \\
+Cingulo-parietal & 0.013 (0.076) & 0.012 (0.074) & 0.009 (0.053) & 0.008 (0.047) & 0.021 (0.129) & 0.089 (0.534) & 0.111 (0.553) & 0.008 (0.049) & 0.033 (0.166) \\
+Posterior cingulate & 0.655 (1.000) & 0.652 (1.000) & 0.653 (1.000) & 0.640 (1.000) & 0.434 (1.000) & 0.699 (1.000) & 0.916 (1.000) & 0.634 (1.000) & 0.020 (0.122) \\
+Visual & 0.675 (1.000) & 0.670 (1.000) & 0.716 (1.000) & 0.648 (1.000) & 0.771 (1.000) & 0.825 (1.000) & 0.621 (1.000) & 0.654 (1.000) & 0.188 (0.565) \\
+Auditory & 0.828 (1.000) & 0.828 (1.000) & 0.822 (1.000) & 0.823 (1.000) & 0.741 (1.000) & 0.881 (1.000) & 0.598 (1.000) & 0.790 (1.000) & 0.377 (0.754) \\
+\midrule
+\multicolumn{10}{@{}p{0.96\textwidth}@{}}{(a) rotations keeping at least 50\% of vertices; (b) no acceptance criterion; (c) rotations with Dice overlap $\leq$ 0.2 with the original mask; (d) parcel-centroid rotation with one-to-one Hungarian reassignment; (e) size-matched random parcel sets without spatial structure; (f) cortical mean outside the region added as a covariate; (g) three-second windows, 186 videos; (h) relative retention performance; (i) exit intensity. Unless stated, columns use audience watch ratio, five-second windows, and the 140-video cohort.} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[!t]
+\centering
+\begin{minipage}[b]{0.46\textwidth}
+\centering
+\includegraphics[width=\linewidth]{06_topic_summary.pdf}\\[0.2em]
+{\footnotesize (a)}
+\end{minipage}\hspace{0.04\textwidth}
+\begin{minipage}[b]{0.46\textwidth}
+\centering
+\includegraphics[width=\linewidth]{08_retention_cluster_stability.pdf}\\[0.2em]
+{\footnotesize (b)}
+\end{minipage}
+\caption{Extended descriptive analyses: (a) retention summaries across deterministic content labels and (b) stability checks for candidate retention-curve cluster counts.}
+\label{fig:extended}
+\end{figure*}
+
+\rev{The conclusion did not depend on the acceptance criterion: with a 50\% criterion or none, the cingulo-parietal profile still exceeded 98.7--98.8\% of rotated regions. Keeping only rotations whose overlap with the original mask had a Dice coefficient of at most 0.2 gave a cingulo-parietal Holm $p$ of 0.053. A parcel-level rotation, which rotates parcel centroids and reassigns parcels one-to-one with the Hungarian algorithm \mbox{\cite{vazquez2019gradients}}, gave 0.047. Size-matched random parcel sets without spatial structure gave nominal $p$ values for the cingulo-parietal (0.021) and anterior-insular (0.047) profiles, with Holm $p\geq0.13$. Adding the cortical mean outside each region as a covariate lowered the cingulo-parietal association to 0.232, which still exceeded 91.1\% of rotated regions ($p=0.089$). This analysis measures relative position after a common cortical component is removed. With three-second windows (186 videos), the observed correlations were smaller than with five-second windows (cingulo-parietal 0.127, anterior-insular 0.163). In that analysis the anterior-insular profile exceeded 96.1\% of rotated regions ($p=0.039$, Holm 0.24). A same-cohort comparison, specified before it was run and not a spin test, restricted the three-second analysis to the 140 videos of the five-second cohort. The three-second correlations were then 0.179 (frontal), 0.229 (anterior-insular), 0.206 (cingulo-parietal), 0.074 (posterior-cingulate), 0.092 (visual), and 0.058 (auditory), against 0.374, 0.417, 0.437, 0.214, 0.209, and 0.081 at five seconds. In the 46 videos eligible only at three seconds, the cingulo-parietal and anterior-insular correlations were $-0.113$ and $-0.037$. The smaller three-second values are therefore not explained by the cohort (\mbox{Section~V-C}). Ten-second windows left only four eligible videos and are not interpreted. For relative retention performance, the cingulo-parietal profile exceeded 99.2\% ($p=0.008$, Holm 0.049). For exit intensity, the observed associations were near zero ($|\rho|\leq0.09$), while the rotated regions were centered below zero. This produced nominal $p$ values for the posterior-cingulate (0.020) and cingulo-parietal (0.033) profiles, with Holm $p\geq0.12$. One persisted prediction file failed its stored checksum and was restored from the archived release; it is not in the five-second cohort, and excluding it from the three-second analysis changed no result. The 72 spin tests are twelve families of six profiles: the primary comparison (\mbox{Table~\ref{tab:spin}}), the nine sensitivity families in \mbox{Table~\ref{tab:spinsens}}, and two families described only in this paragraph, the ten-second analysis and the three-second analysis excluding the restored file. With Holm correction across all 72 tests, the smallest corrected value was 0.57.}
+
+\rev{\textit{Conditional prediction ablation.} Using the window-level Ridge design of \mbox{Section~IV-D}, we added the cingulo-parietal profile, the anterior-insular profile, both, all six, and all six minus one to the metadata model. Video-level MAE was compared with a paired video bootstrap (2,000 resamples). For grouped exit intensity, all six profiles reduced MAE by 0.000220 (95\% interval [0.000071, 0.000374]). The cingulo-parietal, anterior-insular, and paired additions had intervals that included zero. Removing the frontal or the visual profile from the six increased error, with intervals excluding zero; removing any other single profile did not. The chronological split showed a similar six-profile reduction (0.000349, [0.000018, 0.000701]), although its interval included zero when windows were weighted equally (see the window-weighting check above). For audience watch ratio, no profile set reduced error. The incremental information is therefore observed for exit intensity at the level of the six-profile combination, and individual profiles add little. Relative retention performance was not analyzed. Its stored predictions were reproduced with the stored regularization strengths, but the reconstructed selection rule chose different strengths in some folds, so new feature sets could not be fitted under the original rule.}
+
+\rev{\textit{Information overlap among profiles.} Within-video, position-adjusted Spearman correlations between pairs of profiles, averaged over the 140 videos, ranged from 0.19 (cingulo-parietal and auditory) to 0.88 (anterior-insular and cingulo-parietal). With the cortical mean outside both regions added as a covariate, they ranged from $-0.26$ to 0.82, and the anterior-insular and cingulo-parietal pair remained the highest. These values describe information overlap. Different cortical systems may covary under the same audiovisual stimulus, so a high correlation is not evidence against an anatomical or functional distinction.}
+
 \section{Extended Descriptive Analyses}
 \label{app:extended}
 
 Extended analyses were completed from the frozen result set but are not promoted to primary claims. Topic summaries describe content-label and outcome distributions; cluster candidates describe retention-curve shapes, not validated audience types. Additional window-width, parcel, API-context, and window-level prediction screens remain exploratory.
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=0.72\textwidth]{06_topic_summary.pdf}\\[0.6em]
-\includegraphics[width=0.72\textwidth]{08_retention_cluster_stability.pdf}
-\caption{Extended descriptive analyses: (a) retention summaries across deterministic content labels and (b) stability checks for candidate retention-curve cluster counts.}
-\label{fig:extended}
-\end{figure*}

@@ -35,11 +35,28 @@ pdflatex -interaction=nonstopmode -halt-on-error main.tex
 
 ## Data Availability
 
-The associated Zenodo deposit is version 1.0.2, a data-only archive containing
+The associated Zenodo deposit is version 1.0.3, a data-only archive containing
 a README and sanitized aggregate data files. The concept DOI resolves to the
-latest version:
+latest version; version 1.0.3 has its own DOI:
 
-https://doi.org/10.5281/zenodo.22916778
+- Latest version (concept DOI): https://doi.org/10.5281/zenodo.22916778
+- Version 1.0.3: https://doi.org/10.5281/zenodo.24217382
+- Version 1.0.2 (earlier, unchanged): https://doi.org/10.5281/zenodo.23027841
+
+Changes in 1.0.3 (the data files in `data/` are the same as in the archive
+except as noted):
+
+- `data/submission_audit/fair_model_metrics.csv`: the columns
+  `mae_window_weighted` and `r2_window_weighted` were mislabelled in earlier
+  versions; they hold values in which each video counts equally. In this
+  version these values are in `mae_video_equal` and `r2_video_equal`, and
+  `mae_window_weighted` and `r2_window_weighted` hold values with every window
+  weighted equally. No reported value changed.
+- `data/submission_audit/fair_model_window_weighted_paired_improvement.csv`:
+  new. Paired MAE improvements under both weightings, with 95% video-bootstrap
+  intervals; the window-weighted check was added after the results were seen
+  and was not pre-specified.
+- `data/review_figure_provenance.json`: hashes of the regenerated figures.
 
 The Zenodo archive does not contain code or pre-rendered figures. The public
 GitHub repository provides the manuscript source, selected figure-generation
